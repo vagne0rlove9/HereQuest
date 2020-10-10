@@ -10,20 +10,20 @@ export default class Map extends React.Component {
     componentDidMount() {
 
         const coordinates = [
-            { lat: 55.9985958, lng: 37.2247743, description: "Общежитие МИЭТ" },
-            { lat: 55.992649, lng: 37.2195338, description: "Флейта" },
+            { lat: 55.986281, lng: 37.1705789, description: "Музей Зеленограда" },
             { lat: 55.9831656, lng: 37.2099016, description: "НИУ МИЭТ" },
-            { lat: 55.986281, lng: 37.1705789, description: "Музей Зеленограда" }
+            { lat: 55.992649, lng: 37.2195338, description: "Флейта" },
+            { lat: 55.9985958, lng: 37.2247743, description: "Общежитие МИЭТ" },
         ];
 
         const H = window.H;
         const platform = new H.service.Platform({
-            apikey: "ksTpcItxmjBO_GYj0B0e-ZQY8MLCuTPmPDI5nvz_ZKc" 
+            apikey: "ksTpcItxmjBO_GYj0B0e-ZQY8MLCuTPmPDI5nvz_ZKc"
         });
 
         const defaultLayers = platform.createDefaultLayers();
 
-        const center = { lat: 0, lng: 0};
+        const center = { lat: 0, lng: 0 };
         coordinates.map(coordinate => {
             center.lat += coordinate.lat / coordinates.length;
             center.lng += coordinate.lng / coordinates.length;
@@ -42,7 +42,7 @@ export default class Map extends React.Component {
         const mapEvents = new H.mapevents.MapEvents(map);
         const behavior = new H.mapevents.Behavior(mapEvents);
 
-        coordinates.map(coordinate => { 
+        coordinates.map(coordinate => {
             const marker = new H.map.Marker(coordinate);
             map.addObject(marker);
             marker.addEventListener('tap', function (evt) {
@@ -50,8 +50,57 @@ export default class Map extends React.Component {
                     content: `<p>${coordinate.description}</p>`
                 });
                 ui.addBubble(bubble);
-            }); 
-        })
+            })
+        });
+
+        for (var i = 0; i < coordinates.length - 1; i++) {
+            console.log(i);
+            var routingParameters = {
+                'routingMode': 'fast',
+                'transportMode': 'car',
+                'origin': coordinates[i].lat + ',' + coordinates[i].lng,
+                'destination': coordinates[i + 1].lat + ',' + coordinates[i + 1].lng,
+                'return': 'polyline'
+            };
+            var onResult = function (result) {
+                if (result.routes.length) {
+                    result.routes[0].sections.forEach((section) => {
+                        let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
+                        var routeOutline = new H.map.Polyline(linestring, {
+                            style: {
+                                lineWidth: 10,
+                                strokeColor: 'rgba(0, 128, 255, 0.7)',
+                                lineTailCap: 'arrow-tail',
+                                lineHeadCap: 'arrow-head'
+                            }
+                        });
+                        var routeArrows = new H.map.Polyline(linestring, {
+                            style: {
+                                lineWidth: 10,
+                                fillColor: 'white',
+                                strokeColor: 'rgba(255, 255, 255, 1)',
+                                lineDash: [0, 2],
+                                lineTailCap: 'arrow-tail',
+                                lineHeadCap: 'arrow-head'
+                            }
+                        }
+                        );
+                        var routeLine = new H.map.Group();
+                        routeLine.addObjects([routeOutline, routeArrows]);
+                        map.addObjects([routeLine]);
+                    });
+                }
+
+            }
+            var router = platform.getRoutingService(null, 8);
+            router.calculateRoute(routingParameters, onResult,
+                function (error) {
+                    alert(error.message);
+                });
+        }
+
+        map.addLayer(defaultLayers.vector.normal.traffic);
+        map.addLayer(defaultLayers.vector.normal.trafficincidents);
 
         this.setState({ map });
     }
