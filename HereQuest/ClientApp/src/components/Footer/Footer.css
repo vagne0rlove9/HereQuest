@@ -1,5 +1,5 @@
 ﻿.footer-background {
-    background-color: #001970;
+    background-color: #391c54;
     width: 100%;
     height: auto;
     color: white;
@@ -8,7 +8,7 @@
 }
 
 .footer-row {
-    background-color: #001970;
+    background-color: #391c54;
     width: 80%;
     color: white;
     margin: 0 auto;
@@ -65,4 +65,8 @@
 .footer-copyright {
     margin: auto;
     padding-bottom: 30px;
+}
+
+.word{
+    word-break: break-all;
 }

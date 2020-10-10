@@ -48,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         width: theme.spacing(7),
         height: theme.spacing(7),
-        color: "black",
-        backgroundColor: "#FFF400"
+        color: "white",
+        backgroundColor: "#0095a8"
     },
     cardHeader: {
         "&:hover": {

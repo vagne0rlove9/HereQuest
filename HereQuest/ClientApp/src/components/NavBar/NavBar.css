@@ -12,10 +12,10 @@
   background: rgb(56, 219, 201);
   background: linear-gradient(
     45deg,
-    rgba(56, 219, 201, 1) 0%,
-    rgba(47, 152, 202, 1) 15%,
-    rgba(42, 99, 202, 1) 50%,
-    rgb(0, 25, 125) 100%
+    rgba(180, 145, 214, 1) 0%,
+    rgba(165, 145, 214, 1) 15%,
+    rgba(96, 67, 119, 1) 50%,
+    rgb(64, 28, 84) 100%
   );
   background-size: 200% 200%;
   background-position: 0 0;

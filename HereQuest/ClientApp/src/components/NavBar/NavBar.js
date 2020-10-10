@@ -28,6 +28,7 @@ const styles = (theme) => ({
     cursor: "pointer",
     color: "white",
     display: "none",
+    fontWeight: "bold",
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
