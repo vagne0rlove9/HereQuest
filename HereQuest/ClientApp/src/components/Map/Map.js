@@ -34,7 +34,7 @@ export default class Map extends React.Component {
             defaultLayers.vector.normal.map,
             {
                 center: center,
-                zoom: 14,
+                zoom: 13.8,
             }
         );
 
@@ -47,7 +47,7 @@ export default class Map extends React.Component {
             map.addObject(marker);
             marker.addEventListener('tap', function (evt) {
                 const bubble = new H.ui.InfoBubble(coordinate, {
-                    content: `<p>${coordinate.description}</p><input>`
+                    content: `<p>${coordinate.description}</p>`
                 });
                 ui.addBubble(bubble);
             }); 
