@@ -28,27 +28,6 @@ class HomePage extends React.Component {
         temp[0] = {
             name: "Зеленоград"
         }
-        temp[1] = {
-            name: "Зеленоград"
-        }
-        temp[2] = {
-            name: "Зеленоград"
-        }
-        temp[3] = {
-            name: "Зеленоград"
-        }
-        temp[4] = {
-            name: "Зеленоград"
-        }
-        temp[5] = {
-            name: "Зеленоград"
-        }
-        temp[6] = {
-            name: "Зеленоград"
-        }
-        temp[7] = {
-            name: "Зеленоград"
-        }
         this.setState({loadingQuests: false, quests: temp});
     }
     
@@ -99,31 +78,21 @@ class HomePage extends React.Component {
                                             // zIndex: zIndex,
                                         }}
                                     >
-                                        <QuestCard vacancy={vacancy}></QuestCard>
+                                        
                                     </Grid>
                                 );
                             })}
                     </Grid>
 
                     <div className="text-container">
-                        <h1 className="caption-text">Квесты в вашем городе</h1>
+                        <h1 className="caption-text">Знакомство с городом</h1>
                     </div>
-                    {this.state.loadingStudents ? <Loader/> : null}
+                    {this.state.loadingQuests ? <Loader/> : null}
                     <Grid container justify="center">
                         {quests
-                            .filter(
-                                (s) =>
-                                    s.sphere !== null &&
-                                    s.name !== null &&
-                                    s.secondName !== null &&
-                                    s.thirdName !== null &&
-                                    s.age !== null &&
-                                    s.typeOfEmployment !== null &&
-                                    s.address !== null &&
-                                    s.university !== null
-                            )
+                            //.filter( quest => quest.city == "")
                             .slice(0, cardsCount)
-                            .map((student, index = 100) => {
+                            .map((quest, index = 100) => {
                                 let zIndex = Math.round((1 / (index + 1)) * 100);
                                 return (
                                     <Grid
@@ -136,12 +105,63 @@ class HomePage extends React.Component {
                                             zIndex: zIndex,
                                         }}
                                     >
-                                        <StudentCard student={student}></StudentCard>
+                                        <QuestCard quest={quest}></QuestCard>
                                     </Grid>
                                 );
                             })}
                     </Grid>
-
+                    <div className="text-container">
+                        <h1 className="caption-text">Командные квесты</h1>
+                    </div>
+                    {this.state.loadingQuests ? <Loader/> : null}
+                    <Grid container justify="center">
+                        {quests
+                            //.filter( quest => quest.city == "")
+                            .slice(0, cardsCount)
+                            .map((quest, index = 100) => {
+                                let zIndex = Math.round((1 / (index + 1)) * 100);
+                                return (
+                                    <Grid
+                                        key={index}
+                                        item
+                                        style={{
+                                            width: window.screen.availWidth > 320 ? "311px" : "250px",
+                                            marginRight: "40px",
+                                            marginLeft: "0px",
+                                            zIndex: zIndex,
+                                        }}
+                                    >
+                                        <QuestCard quest={quest}></QuestCard>
+                                    </Grid>
+                                );
+                            })}
+                    </Grid>
+                    <div className="text-container">
+                        <h1 className="caption-text">Загадки</h1>
+                    </div>
+                    {this.state.loadingQuests ? <Loader/> : null}
+                    <Grid container justify="center">
+                        {quests
+                            //.filter( quest => quest.city == "")
+                            .slice(0, cardsCount)
+                            .map((quest, index = 100) => {
+                                let zIndex = Math.round((1 / (index + 1)) * 100);
+                                return (
+                                    <Grid
+                                        key={index}
+                                        item
+                                        style={{
+                                            width: window.screen.availWidth > 320 ? "311px" : "250px",
+                                            marginRight: "40px",
+                                            marginLeft: "0px",
+                                            zIndex: zIndex,
+                                        }}
+                                    >
+                                        <QuestCard quest={quest}></QuestCard>
+                                    </Grid>
+                                );
+                            })}
+                    </Grid>
                 </div>
             </div>
         );

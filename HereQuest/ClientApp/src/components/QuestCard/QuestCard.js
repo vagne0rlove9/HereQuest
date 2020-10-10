@@ -186,7 +186,7 @@ function QuestCard(props) {
                         </CardActions>
                         <Collapse in={expanded} timeout="auto" unmountOnExit>
                             <CardContent>
-                                <Typography paragraph>{props.vacancy.description}</Typography>
+                                <Typography paragraph></Typography>
                                 <Typography paragraph>
                                     Описание
                                 </Typography>
