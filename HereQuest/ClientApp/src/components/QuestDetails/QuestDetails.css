@@ -1,0 +1,48 @@
+.header {
+  margin: auto;
+  padding-top: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+  max-width: 100%;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+}
+
+.header-h {
+  font-weight: bold;
+  color: black;
+  margin-bottom: 5px;
+}
+
+.description {
+  margin-top: 50px;
+}
+
+.skills {
+  margin-top: 50px;
+}
+
+.container-vac-details{
+  width: 80%;
+  margin: 80px auto;
+}
+
+.item-vacancy{
+  margin-top: 20px;
+}
+
+.item-vacancy-salary{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.button-invite-student {
+  width: 30vw;
+  height: 40px;
+  background-color: #0095a8;
+  border: 0;
+  color: white;
+  min-width: 235px;
+  border-radius: 3px;
+}

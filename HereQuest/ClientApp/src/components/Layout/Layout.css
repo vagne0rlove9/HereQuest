@@ -1,0 +1,18 @@
+.main-section{
+    flex: 1 0 auto;
+    min-height: 100%;
+}
+.main-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .main-navbar {
+    flex-shrink: 0;
+  }
+  
+  .main-footer {
+    flex-shrink: 0;
+  }
+  
