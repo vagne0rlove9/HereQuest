@@ -4,31 +4,50 @@ export default class Map extends React.Component {
     mapRef = React.createRef();
 
     state = {
+        myCoordinate: null,
         map: null
     };
 
     componentDidMount() {
+        this.start();                 
+    }
 
-        const coordinates = [
-            { lat: 55.986281, lng: 37.1705789, description: "Музей Зеленограда" },
-            { lat: 55.9831656, lng: 37.2099016, description: "НИУ МИЭТ" },
-            { lat: 55.992649, lng: 37.2195338, description: "Флейта" },
-            { lat: 55.9985958, lng: 37.2247743, description: "Общежитие МИЭТ" },
-        ];
+    start() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                this.setState({ myCoordinate: { lat: position.coords.latitude, lng: position.coords.longitude, description: "Моя позиция" } });
+                this.go();
+            });
+        } else {
+            console.error("Geolocation is not supported by this browser!");
+        }
+    }
 
+    go() {
         const H = window.H;
         const platform = new H.service.Platform({
             apikey: "ksTpcItxmjBO_GYj0B0e-ZQY8MLCuTPmPDI5nvz_ZKc"
         });
 
-        const defaultLayers = platform.createDefaultLayers();
+        navigator.geolocation.getCurrentPosition(function (position) {
+            console.log(position);
+        });       
 
+        const coordinates = [
+            this.state.myCoordinate,
+            { lat: 55.986281, lng: 37.1705789, description: "Музей Зеленограда" },
+            { lat: 55.9831656, lng: 37.2099016, description: "НИУ МИЭТ" },
+            { lat: 55.992649, lng: 37.2195338, description: "Флейта" },
+            { lat: 55.9985958, lng: 37.2247743, description: "Общежитие МИЭТ" },
+        ];
+        console.log(coordinates);
+
+        const defaultLayers = platform.createDefaultLayers();
         const center = { lat: 0, lng: 0 };
         coordinates.map(coordinate => {
             center.lat += coordinate.lat / coordinates.length;
             center.lng += coordinate.lng / coordinates.length;
         });
-
         const map = new H.Map(
             this.mapRef.current,
             defaultLayers.vector.normal.map,
@@ -76,10 +95,10 @@ export default class Map extends React.Component {
                         });
                         var routeArrows = new H.map.Polyline(linestring, {
                             style: {
-                                lineWidth: 10,
+                                lineWidth: 7,
                                 fillColor: 'white',
                                 strokeColor: 'rgba(255, 255, 255, 1)',
-                                lineDash: [0, 2],
+                                lineDash: [0, 1],
                                 lineTailCap: 'arrow-tail',
                                 lineHeadCap: 'arrow-head'
                             }
