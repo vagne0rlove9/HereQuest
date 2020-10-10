@@ -9,7 +9,7 @@ export default class Map extends React.Component {
     };
 
     componentDidMount() {
-        this.start();                 
+        this.start();
     }
 
     start() {
