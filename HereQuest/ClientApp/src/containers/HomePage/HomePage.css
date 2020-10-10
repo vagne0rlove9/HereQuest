@@ -1,0 +1,228 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: auto;
+  padding-top: 50px;
+}
+@media (max-width: 768px) {
+  .hide-0-to-768 {
+    display: none;
+  }
+}
+.margin-bottom{
+  margin-bottom: 20px;
+  margin-top: 15px;
+}
+.background-home {
+  width: 100%;
+  height: 46vh;
+  text-align: center;
+  align-content: center;
+  padding-top: 150px;
+  margin-bottom: 10px;
+}
+
+.gradient-background {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  padding: 42px 32px 32px 32px;
+  background-color: #f8f8f8;
+  /* background: rgb(56, 219, 201);
+  background: linear-gradient(
+    180deg,
+    rgba(56, 219, 201, 1) 0%,
+    rgba(47, 152, 202, 1) 55%,
+    rgba(42, 99, 202, 1) 70%,
+    rgb(0, 25, 125) 100%
+  ); */
+  /* background-size: 200% 200%;
+  background-position: 0 0;
+  animation: gradient 6s ease infinite;
+  -webkit-animation: gradient 6s ease infinite; */
+}
+
+
+@keyframes gradient-y {
+  0% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 50% 0%;
+  }
+}
+@keyframes gradient-x {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.text-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 50px;
+  padding-top: 7px;
+  margin: 2px;
+  margin-bottom: 25px;
+  background: #fff;
+  border: solid 2px #401c54;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+.caption-text {
+  font-size: 20px;
+  font-weight: bold;
+  background: linear-gradient(
+    to right,
+    rgba(64, 28, 84, 1),
+    rgb(5, 103, 114)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  max-width: 350px;
+  text-transform: uppercase;
+  /* line-height: 0.77; */
+}
+
+.divider{
+  height: 6px;
+  width: 100%;
+  border-radius: 4px;
+  background: linear-gradient(    to right,    rgba(0, 25, 112, 1),    rgba(38, 198, 218, 1)  );
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+
+.vacancies{
+  background: rgb(0,149,160);
+  background: linear-gradient(180deg, rgba(0,149,160,1) 39%,  rgba(48,63,159,1) 100%);
+}
+
+.students{
+  background: rgb(0,149,160);
+  background: linear-gradient(180deg, rgba(48,63,159,1) 0%, rgba(111, 249, 255,1) 100%);
+}
+
+.header-h1 {
+  position: relative;
+  text-align: left;
+}
+
+.header-h1 h1 {
+  display: inline-block;
+  margin-bottom: 0;
+  font-size: 2rem;
+  font-weight: bold;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: transparent;
+  color: #fff;
+  margin-top: 20px; 
+  position: relative;
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
+.div-vacancies {
+  border-left: 1px solid #c2bebe;
+  border-right: 1px solid #c2bebe;
+  width: 55%;
+  margin: auto;
+  text-align: center;
+}
+
+.hr {
+  margin-top: 1rem;
+  border: 0;
+  border-top: 1px solid #c2bebe;
+  width: 95%;
+  margin-bottom: 15px;
+}
+
+.div-sm-left {
+  border-right: 1px solid #c2bebe;
+}
+
+.div-sm-right {
+  border-left: 1px solid #c2bebe;
+}
+
+.div-article {
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+.div-article:hover {
+  color: #001970;
+}
+
+.hr-article {
+  margin-top: 1rem;
+  border: 0;
+  border-top: 1px solid #c2bebe;
+  width: 100%;
+}
+
+.div-left {
+  padding-left: 15px;
+  height: fit-content;
+  min-height: 70px;
+}
+
+.div-row {
+  width: 100%;
+}
+
+.div-vac {
+  height: fit-content;
+}
+
+.links {
+  color: black;
+}
+
+.links:hover {
+  color: #001970;
+}
+
+.div-left-second {
+  padding-left: 15px;
+  height: fit-content;
+  min-height: 70px;
+}
+
+.image-mobile{
+  width: 100%;
+  height: 220px;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  background: url("../../images/loft_mob.jpg") center center;
+  font-family: Yanone Kaffeesatz;
+  font-style: italic;
+}
+

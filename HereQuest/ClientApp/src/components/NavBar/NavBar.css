@@ -1,0 +1,50 @@
+.button-search {
+  height: 35px;
+  background-color: #0095a8;
+  border: 0px;
+  border-radius: 3px;
+  width: 80px;
+  color: white;
+  margin-left: 10px;
+}
+
+.navbar-background {
+  background: rgb(56, 219, 201);
+  background: linear-gradient(
+    45deg,
+    rgba(180, 145, 214, 1) 0%,
+    rgba(165, 145, 214, 1) 15%,
+    rgba(96, 67, 119, 1) 50%,
+    rgb(64, 28, 84) 100%
+  );
+  background-size: 200% 200%;
+  background-position: 0 0;
+  animation: gradient-x 100s ease infinite;
+  -webkit-animation: gradient-x 100s ease infinite;
+}
+
+.signInBtn {
+  cursor: pointer;
+  color: white;
+  margin-left: 1.5vw;
+}
+
+.signInBtn:hover {
+  text-decoration: none;
+  color: #0095a8;
+}
+.appbar {
+  box-shadow: none;
+}
+
+.account-circle {
+  cursor: pointer;
+  margin-left: 1.5vw;
+}
+.account-circle:hover {
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+}
