@@ -1,6 +1,7 @@
 .main-section{
     flex: 1 0 auto;
     min-height: 100%;
+    background-color: #f8f8f8;
 }
 .main-container {
     display: flex;
