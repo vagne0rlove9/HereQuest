@@ -177,8 +177,8 @@ export default class Map extends React.Component {
             const H = window.H;
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
-                    var lat = Math.random() % 5 / 1000 + 55.988804;
-                    var lng = Math.random() % 5 / 1000 + 37.210889;
+                    var lat = Math.random() % 3 / 1000 + 55.980804;
+                    var lng = Math.random() % 3 / 1000 + 37.202889;
                     console.log(lat + " " + lng);
                     this.setState({ myCoordinate: { lat: lat, lng: lng, description: "Моя позиция" } });
                 });
@@ -186,14 +186,14 @@ export default class Map extends React.Component {
                 console.error("Geolocation is not supported by this browser!");
             }
             var newCircle = new H.map.Circle(
-                new H.geo.Point(this.state.teaser.lat, this.state.teaser.lng),
+                new H.geo.Point(this.state.teaser.lat + Math.random() % 5 / 100 - 0.03, this.state.teaser.lng + Math.random() % 5 / 100 - 0.03),
                 this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng) / 2,
                 { style: { fillColor: 'rgba(221, 0, 255, 0.66)' } }
             );
+            this.state.map.removeObjects(this.state.map.getObjects());
             this.state.map.addObject(newCircle);
             await new Promise(resolve => setTimeout(resolve, 5000));
             this.refreshMap();
-            //setTimeout(this.refreshMap, 5000);
         }
     }
 
