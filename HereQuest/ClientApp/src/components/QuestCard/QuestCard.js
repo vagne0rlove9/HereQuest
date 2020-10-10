@@ -78,7 +78,16 @@ function QuestCard(props) {
     const [state, setState] = React.useState(null);
     const history = useHistory();
     const [flag, setFlag] = React.useState(true);
-
+    const [quest, setQuest] = React.useState(null);
+    axios
+        .get(`https://js-here.firebaseio.com/quests/tourism/${props.quest.id}.json`)
+        .then((response) => response.data)
+        .then(
+            (data) => {
+                setQuest(data)              
+            }
+        );
+    
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -86,7 +95,7 @@ function QuestCard(props) {
     const handleMenuClose = () => {
         setState(null);
     };
-    
+
     const renderOptions = (
         <Menu
             anchorEl={state}
@@ -101,33 +110,22 @@ function QuestCard(props) {
             <MenuItem>Редактировать</MenuItem>
         </Menu>
     );
-
     
-
     return (
         <>
             {flag === true ? (
                 <>
-                    <div
-                        className="messageAria"
-                        id="message"
-                        ref={messageRef}
-                    >
-                        <div className={classes.message}>
-                            <h5>Вакансия добавлена в избранное!</h5>
-                        </div>
-                    </div>
                     <Card className={classes.root} id="card">
                         <CardHeader
                             className={classes.cardHeader}
                             avatar={
                                 <Avatar aria-label="recipe" className={classes.avatar}>
-                                    З
+                                    {quest !== null ? quest.city.slice(0,1) : null}
                                 </Avatar>
                             }
                             action={
                                 <>
-                                    { props && props.pagePurpose === "profile" ? (
+                                    {props && props.pagePurpose === "profile" ? (
                                         <IconButton aria-label="settings">
                                             <SettingsIcon/>
                                         </IconButton>
@@ -136,12 +134,12 @@ function QuestCard(props) {
                             }
                             title={
                                 <Typography
-                                    onClick={() => history.push(`/quests`)}
+                                    onClick={() => history.push(`/quests/${quest.id}`)}
                                     variant="body2"
                                     color="textSecondary"
                                     component="p"
                                 >
-                                    Зеленоград
+                                    {quest !== null ? quest.city : null}
                                 </Typography>
                             }
                         />
@@ -150,7 +148,7 @@ function QuestCard(props) {
                             onClick={() => history.push(`/quests`)}
                             title={
                                 <Typography variant="h6" component="p">
-                                    Узнай свой город
+                                    {quest !== null ? quest.title : null}
                                 </Typography>
                             }
                         />
@@ -160,19 +158,17 @@ function QuestCard(props) {
                         >
                             <CardContent>
                                 <Typography variant="body2" component="p">
-                                    Время прохождения: 4 часа
+                                    Время: {quest !== null ? quest.time : null}
                                 </Typography>
                             </CardContent>
                             <CardContent>
                                 <Typography variant="body2" component="p">
-                                    Команда: 1 - 3 чел 
+                                    Рейтинг: {quest !== null ? quest.rating : null} / 10
                                 </Typography>
                             </CardContent>
-                            
-                            
                         </div>
                         <CardActions disableSpacing>
-                            
+
                             <IconButton
                                 className={clsx(classes.expand, {
                                     [classes.expandOpen]: expanded,
@@ -188,7 +184,7 @@ function QuestCard(props) {
                             <CardContent>
                                 <Typography paragraph></Typography>
                                 <Typography paragraph>
-                                    Описание
+                                    {quest !== null ? quest.description : null}
                                 </Typography>
                             </CardContent>
                         </Collapse>
@@ -199,7 +195,6 @@ function QuestCard(props) {
         </>
     );
 }
-
 
 
 export default withRouter(

@@ -1,9 +1,3 @@
-.header-task{
-  margin-bottom: 20px;
+.error{
+    color: red;
 }
-
-.question{
-  color: #444444;
-  margin-bottom: 20px;
-}
-

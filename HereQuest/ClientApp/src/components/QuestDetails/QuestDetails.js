@@ -37,9 +37,9 @@ class QuestDetails extends Component {
         //             })
         //     );
     }
-
+    
     handleStartQuest = () => {
-        this.props.history.push('/quests/1')
+        this.props.history.push(`/quests/${this.props.match.params.id}/questions`)
     };
 
     render() {

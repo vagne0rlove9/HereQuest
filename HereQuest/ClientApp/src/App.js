@@ -14,8 +14,8 @@ export default class App extends Component {
     return (
       <Layout>
         <Route exact path='/' component={HomePage} />
-        <Route exact path='/quests' component={QuestDetails} />
-          <Route exact path='/quests/1' component={QuestTasks} />
+        <Route exact path='/quests/:id' component={QuestDetails} />
+          <Route exact path='/quests/:id/questions' component={QuestTasks} />
       </Layout>
     );
   }
