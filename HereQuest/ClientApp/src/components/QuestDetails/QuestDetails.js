@@ -1,6 +1,7 @@
 ﻿import React, {Component} from "react";
 import axios from "axios";
 import "./QuestDetails.css";
+import Map from "../Map/Map";
 
 class QuestDetails extends Component {
     constructor(props) {
@@ -89,7 +90,7 @@ class QuestDetails extends Component {
                 <div className="item-vacancy">
                     <b>Команда:</b> 1 - 3 чел
                 </div>
-                
+                <Map/>
                     
                 
             </div>
