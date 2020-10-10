@@ -2,6 +2,7 @@
 import axios from "axios";
 import "./QuestTasks.css";
 import Map from "../Map/Map";
+import MapArea from "../MapArea/MapArea";
 import TextField from "@material-ui/core/TextField";
 
 class QuestTasks extends Component {
@@ -52,7 +53,7 @@ class QuestTasks extends Component {
                 <h3 className="header-task">Задание 1</h3>
                 <h5 className="question">В каком году был основан город Зеленоград?</h5>
 
-                <Map/>
+                <MapArea />
 
                 <div className="item-vacancy">
 
