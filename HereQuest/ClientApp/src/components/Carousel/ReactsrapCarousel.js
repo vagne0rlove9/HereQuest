@@ -10,14 +10,14 @@ const items = [
   },
   {
     src: "images/carousel2_.jpg",
-    altText: "Here Quests поможет Вам выбраться из комнаты!",
-    header: "Here Quests поможет Вам выбраться из комнаты!",
+    altText: "MayDay поможет Вам выбраться из комнаты!",
+    header: "MayDay поможет Вам выбраться из комнаты!",
     key: "2",
   },
   {
     src: "images/carousel3_.jpg",
-    altText: "Here Quests - отличная возможность для отдыха с семьёй и друзьями",
-    header: "Here Quests - отличная возможность для отдыха с семьёй и друзьями",
+    altText: "MayDay - отличная возможность для отдыха с семьёй и друзьями",
+    header: "MayDay - отличная возможность для отдыха с семьёй и друзьями",
     key: "3",
   },
 ];
