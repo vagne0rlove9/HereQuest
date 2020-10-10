@@ -1,9 +1,10 @@
 ﻿import React, {Component} from "react";
 import axios from "axios";
-import "./QuestDetails.css";
+import "./QuestTasks.css";
+import Map from "../Map/Map";
+import TextField from "@material-ui/core/TextField";
 
-
-class QuestDetails extends Component {
+class QuestTasks extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,7 +13,7 @@ class QuestDetails extends Component {
     }
 
     componentWillMount() {
-        
+
     }
 
     componentDidMount() {
@@ -48,36 +49,39 @@ class QuestDetails extends Component {
         if (error) return <div>Error: {error.message}</div>;
         return (
             <div className="container-vac-details">
-                <h3 className="header-h">Узнай свой город</h3>
-                <h5 className="city">Зеленоград</h5>
-                    
-                <div className="description">
-                    <b> Описание квеста:</b>
-                    <br/> Крутой квест
-                </div>
+                <h3 className="header-task">Задание 1</h3>
+                <h5 className="question">В каком году был основан город Зеленоград?</h5>
 
-                
+                <Map/>
+
                 <div className="item-vacancy">
-                    <b>Время прохождения:</b> 4 часа
-                </div>
-                <div className="item-vacancy">
-                    <b>Команда:</b> 1 - 3 чел
+
                 </div>
                 <div className="row div-row" style={{marginLeft: "0"}}>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="answer"
+                        label="Ответ на вопрос"
+                        name="answer"
+                        autoFocus
+                    />
                     <button
                         type="button"
                         className="button-start-quest"
                         onClick={this.handleStartQuest}
                     >
-                        Начать квест
+                        Ответить на вопрос
                     </button>
-                </div>  
-                
+                                          
+                </div>
+
             </div>
         );
     }
 }
 
 
-
-export default (QuestDetails);
+export default (QuestTasks);
