@@ -32,11 +32,17 @@ export default class MapArea extends React.Component {
     }
 
     start() {
-        this.setState({ teaser: { lat: 55.990804, lng: 37.212889, description: "Загадка" } });
+        this.setState({teaser: {lat: 55.990804, lng: 37.212889, description: "Загадка"}});
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 // this.setState({ myCoordinate: { lat: position.coords.latitude, lng: position.coords.longitude, description: "Моя позиция" } });
-                this.setState({ myCoordinate: { lat: Math.random() % 5 / 1000 + 55.988804, lng: Math.random() % 5 / 1000 + 37.210889, description: "Моя позиция" } });
+                this.setState({
+                    myCoordinate: {
+                        lat: Math.random() % 5 / 1000 + 55.988804,
+                        lng: Math.random() % 5 / 1000 + 37.210889,
+                        description: "Моя позиция"
+                    }
+                });
                 this.go();
             });
         } else {
@@ -52,14 +58,14 @@ export default class MapArea extends React.Component {
 
         const coordinates = [
             this.state.myCoordinate,
-            { lat: 55.986281, lng: 37.1705789, description: "Музей Зеленограда" },
-            { lat: 55.9831656, lng: 37.2099016, description: "НИУ МИЭТ" },
-            { lat: 55.992649, lng: 37.2195338, description: "Флейта" },
-            { lat: 55.9985958, lng: 37.2247743, description: "Общежитие МИЭТ" },
+            {lat: 55.986281, lng: 37.1705789, description: "Музей Зеленограда"},
+            {lat: 55.9831656, lng: 37.2099016, description: "НИУ МИЭТ"},
+            {lat: 55.992649, lng: 37.2195338, description: "Флейта"},
+            {lat: 55.9985958, lng: 37.2247743, description: "Общежитие МИЭТ"},
         ];
 
         const defaultLayers = platform.createDefaultLayers();
-        const center = { lat: 0, lng: 0 };
+        const center = {lat: 0, lng: 0};
         coordinates.map(coordinate => {
             center.lat += coordinate.lat / coordinates.length;
             center.lng += coordinate.lng / coordinates.length;
@@ -79,11 +85,9 @@ export default class MapArea extends React.Component {
         var newCircle = new H.map.Circle(
             new H.geo.Point(this.state.teaser.lat, this.state.teaser.lng),
             this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng) / 2,
-            { style: { fillColor: 'rgba(221, 0, 255, 0.66)' } }
+            {style: {fillColor: 'rgba(221, 0, 255, 0.66)'}}
         );
         //map.addObject(newCircle);
-
-
 
 
         /*
@@ -162,7 +166,7 @@ export default class MapArea extends React.Component {
         map.addLayer(defaultLayers.vector.normal.traffic);
         map.addLayer(defaultLayers.vector.normal.trafficincidents);
 
-        this.setState({ map });
+        this.setState({map});
 
         this.refreshMap();
     }
@@ -178,15 +182,22 @@ export default class MapArea extends React.Component {
                     var lat = Math.random() % 3 / 1000 + 55.980804;
                     var lng = Math.random() % 3 / 1000 + 37.202889;
                     console.log(lat + " " + lng);
-                    this.setState({ myCoordinate: { lat: lat, lng: lng, description: "Моя позиция" } });
+                    this.setState({myCoordinate: {lat: lat, lng: lng, description: "Моя позиция"}});
                 });
             } else {
                 console.error("Geolocation is not supported by this browser!");
             }
+            var dx = this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng) / 100
+            var dy = this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng) / 100
+            var x = this.state.teaser.lat + (Math.random() % (dx+1) - (dx/2))/1000 
+            var y = this.state.teaser.lng + (Math.random() % (dy+1) - (dy/2))/1000
+            console.log((Math.random() % (dx+1) - (dx/2))/1000)
+            console.log((Math.random() % (dy+1) - (dy/2))/1000)
+            var r = this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng) / 2
+            
             var newCircle = new H.map.Circle(
-                new H.geo.Point(this.state.teaser.lat + Math.random() % 5 / 100 - 0.03, this.state.teaser.lng + Math.random() % 5 / 100 - 0.03),
-                this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng) / 2,
-                { style: { fillColor: 'rgba(221, 0, 255, 0.66)' } }
+                new H.geo.Point(x, y, r),
+                {style: {fillColor: 'rgba(221, 0, 255, 0.66)'}}
             );
             this.state.map.removeObjects(this.state.map.getObjects());
             this.state.map.addObject(newCircle);
@@ -201,7 +212,7 @@ export default class MapArea extends React.Component {
 
     render() {
         return (
-            <div ref={this.mapRef} style={{ height: "500px" }} />
+            <div ref={this.mapRef} style={{height: "500px"}}/>
         );
     }
 }
