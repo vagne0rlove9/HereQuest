@@ -46,11 +46,13 @@ class HomePage extends React.Component {
                             index
                         })
                     })
-                    //console.log(temp);
-                    this.props.onQuestsTourism(temp);
                     this.setState({
                         loadingQuestsTourism: false
                     })
+                    //console.log(temp);
+                    this.props.onQuestsTourism(temp);
+                    
+                   
                 },
                 (error) =>
                     this.setState({
@@ -60,36 +62,49 @@ class HomePage extends React.Component {
     }
 
     getQuestsPopular() {
-        // var temp = []
-        // axios
-        //     .get("https://js-here.firebaseio.com/quests/tourism.json")
-        //     .then((response) => response.data)
-        //     .then(
-        //         (data) => {
-        //             //temp.push(data)
-        //             Object.keys(data).forEach((key, index) => {
-        //                 temp.push({
-        //                     id: key,
-        //                     index
-        //                 })
-        //             })
-        //             //console.log(temp);
-        //             this.props.onQuestsTourism(temp);
-        //             this.setState({
-        //                 loadingQuestsTourism: false
-        //             })
-        //         },
-        //         (error) =>
-        //             this.setState({
-        //                 error: error,
-        //             })
-        //     );
-        // this.setState({
-        //     quests: temp,
-        //     loadingQuestsTourism: false
-        // })
+        var temp = []
+        axios
+            .get("https://js-here.firebaseio.com/quests/tourism.json")
+            .then((response) => response.data)
+            .then(
+                (data) => {
+                    //temp.push(data)
+                    Object.keys(data).forEach((key, index) => {
+                        temp.push({
+                            id: key,
+                            index
+                        })
+                    })
+                    //console.log(temp);
+                    //this.props.onQuestsTourism(temp);
+                    temp.map(t => {
+                        this.props.questsPopular.push(t)
+                    })
+                    this.setPop()
+                },
+                (error) =>
+                    this.setState({
+                        error: error,
+                    })
+            );
     }
 
+    setPop(){
+        var temp = []
+        this.props.questsPopular.map(q => {
+            axios
+                .get(`https://js-here.firebaseio.com/quests/tourism/${q.id}.json`)
+                .then((response) => response.data)
+                .then(
+                    (data) => {
+                        temp.push(data)
+                        this.setState({questsPopular: temp})
+                    }
+                );
+        })
+        
+    }
+    
     getQuestsRiddle() {
         var temp = []
         axios
@@ -110,6 +125,9 @@ class HomePage extends React.Component {
                     this.setState({
                         loadingQuestsRiddle: false
                     })
+                    
+                    this.setState({loadingQuestsPopular: false})
+                    //console.log(this.props.questsPopular)
                 },
                 (error) =>
                     this.setState({
@@ -172,17 +190,17 @@ class HomePage extends React.Component {
                     <div className="text-container">
                         <h1 className="caption-text">Популярные квесты</h1>
                     </div>
-                    {this.state.loadingQuestsPopular ? <Loader/> : null}
+                    {this.state.loadingQuestsTourism ? <Loader/> : null}
                     <Grid container justify="center" className="margin-bottom">
-                        { this.state.questsPopular.length > 1 
-                            ?
-                            this.state.questsPopular
+                        {
+                            this.props.questsTourism
                             .sort(
                                 (v1, v2) =>
-                                    new Date(v1.dateOfCreation) - new Date(v2.dateOfCreation)
+                                    (v1.rating) - (v2.rating)
+                                    //new Date(v1.dateOfCreation) - new Date(v2.dateOfCreation)
                             )
                             .slice(0, cardsCount)
-                            .map((vacancy, index) => {
+                            .map((quest, index) => {
                                 let zIndex = Math.round((1 / (index + 1)) * 100);
                                 return (
                                     <Grid
@@ -195,30 +213,11 @@ class HomePage extends React.Component {
                                             // zIndex: zIndex,
                                         }}
                                     >
-                                        
+                                        <QuestCard quest={quest}></QuestCard>
                                     </Grid>
                                 );
                             })
-                            :
-                            this.state.questsPopular
-                                .slice(0, cardsCount)
-                                .map((quest, index = 100) => {
-                                    let zIndex = Math.round((1 / (index + 1)) * 100);
-                                    return (
-                                        <Grid
-                                            key={index}
-                                            item
-                                            style={{
-                                                width: window.screen.availWidth > 320 ? "311px" : "250px",
-                                                marginRight: "40px",
-                                                marginLeft: "0px",
-                                                zIndex: zIndex,
-                                            }}
-                                        >
-                                            <QuestCard quest={quest}></QuestCard>
-                                        </Grid>
-                                    );
-                                })
+                            
                         }
                     </Grid>
 
@@ -249,32 +248,6 @@ class HomePage extends React.Component {
                             })}
                     </Grid>
                     <div className="text-container">
-                        <h1 className="caption-text">Командные квесты</h1>
-                    </div>
-                    {this.state.loadingQuestsTeam ? <Loader/> : null}
-                    <Grid container justify="center" className="margin-bottom">
-                        {this.state.questsTeam
-                            //.filter( quest => quest.city == "")
-                            .slice(0, cardsCount)
-                            .map((quest, index = 100) => {
-                                let zIndex = Math.round((1 / (index + 1)) * 100);
-                                return (
-                                    <Grid
-                                        key={index}
-                                        item
-                                        style={{
-                                            width: window.screen.availWidth > 320 ? "311px" : "250px",
-                                            marginRight: "40px",
-                                            marginLeft: "0px",
-                                            zIndex: zIndex,
-                                        }}
-                                    >
-                                        <QuestCard quest={quest}></QuestCard>
-                                    </Grid>
-                                );
-                            })}
-                    </Grid>
-                    <div className="text-container">
                         <h1 className="caption-text">Загадки</h1>
                     </div>
                     {this.state.loadingQuestsRiddle ? <Loader/> : null}
@@ -296,6 +269,32 @@ class HomePage extends React.Component {
                                         }}
                                     >
                                         <QuestAreaCard quest={quest}></QuestAreaCard>
+                                    </Grid>
+                                );
+                            })}
+                    </Grid>
+                    <div className="text-container">
+                        <h1 className="caption-text">Командные квесты</h1>
+                    </div>
+                    {this.state.loadingQuestsTeam ? <Loader/> : null}
+                    <Grid container justify="center" className="margin-bottom">
+                        {this.state.questsTeam
+                            //.filter( quest => quest.city == "")
+                            .slice(0, cardsCount)
+                            .map((quest, index = 100) => {
+                                let zIndex = Math.round((1 / (index + 1)) * 100);
+                                return (
+                                    <Grid
+                                        key={index}
+                                        item
+                                        style={{
+                                            width: window.screen.availWidth > 320 ? "311px" : "250px",
+                                            marginRight: "40px",
+                                            marginLeft: "0px",
+                                            zIndex: zIndex,
+                                        }}
+                                    >
+                                        <QuestCard quest={quest}></QuestCard>
                                     </Grid>
                                 );
                             })}
