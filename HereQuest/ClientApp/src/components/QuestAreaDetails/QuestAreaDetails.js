@@ -1,11 +1,10 @@
 ﻿import React, {Component} from "react";
 import axios from "axios";
-import "./QuestDetails.css";
 import Loader from "../Loader/Loader";
 import {connect} from "react-redux";
 
 
-class QuestDetails extends Component {
+class QuestAreaDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,7 +28,7 @@ class QuestDetails extends Component {
         //const url = `${APP_URL_DEV}/api/vacancies/${id}`;
         console.log(id)
         axios
-            .get(`https://js-here.firebaseio.com/quests/tourism/${id}.json`)
+            .get(`https://js-here.firebaseio.com/quests/riddle/${id}.json`)
             .then((response) => response.data)
             .then(
                 (data) => {
@@ -42,7 +41,7 @@ class QuestDetails extends Component {
 
     handleStartQuest = () => {
         this.props.onAnswer(null)
-        this.props.history.push(`/quests/tourism/${this.props.match.params.id}/questions`)
+        this.props.history.push(`/quests/riddle/${this.props.match.params.id}/questions`)
     };
 
     render() {
@@ -56,7 +55,7 @@ class QuestDetails extends Component {
                         <h3 className="header-h">{this.state.quest.title}</h3>
                         <h5 className="city">{this.state.quest.city}</h5>
                         <div className="item-vacancy">
-                            <img src={this.state.quest.img2} className="quest-img" alt=""/>
+                            <img src={this.state.quest.img1} className="quest-img" alt=""/>
                         </div>
                         <div className="item-vacancy">
                             <b> Описание квеста:</b>
@@ -89,4 +88,4 @@ const mapDispachToProps = dispatch => {
     };
 };
 
-export default connect(null, mapDispachToProps)(QuestDetails);
+export default connect(null, mapDispachToProps)(QuestAreaDetails);

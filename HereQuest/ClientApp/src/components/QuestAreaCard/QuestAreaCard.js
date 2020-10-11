@@ -16,7 +16,6 @@ import {useHistory} from "react-router-dom";
 import {useState} from "react";
 import {useEffect} from "react";
 import {withRouter} from "react-router-dom";
-import "./QuestCard.css";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import axios from "axios";
@@ -68,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function QuestCard(props) {
+function QuestAreaCard(props) {
     //const imgPath = `images/${setIcon(props.vacancy.sphere)}.png`;
     const [isLiked, setIsLiked] = useState(false);
     const classes = useStyles();
@@ -81,7 +80,7 @@ function QuestCard(props) {
     const [quest, setQuest] = React.useState(null);
     const id = props.quest.id 
     axios
-        .get(`https://js-here.firebaseio.com/quests/tourism/${props.quest.id}.json`)
+        .get(`https://js-here.firebaseio.com/quests/riddle/${props.quest.id}.json`)
         .then((response) => response.data)
         .then(
             (data) => {
@@ -135,7 +134,7 @@ function QuestCard(props) {
                             }
                             title={
                                 <Typography
-                                    onClick={() => history.push(`/quests/tourism/${id}`)}
+                                    onClick={() => history.push(`/quests/riddle/${id}`)}
                                     variant="body2"
                                     color="textSecondary"
                                     component="p"
@@ -146,7 +145,7 @@ function QuestCard(props) {
                         />
                         <CardHeader
                             className={classes.cardHeader}
-                            onClick={() => history.push(`/quests/tourism/${id}`)}
+                            onClick={() => history.push(`/quests/riddle/${id}`)}
                             title={
                                 <Typography variant="h6" component="p">
                                     {quest !== null ? quest.title : null}
@@ -154,7 +153,7 @@ function QuestCard(props) {
                             }
                         />
                         <div
-                            onClick={() => history.push(`/quests/tourism/${id}`)}
+                            onClick={() => history.push(`/quests/riddle/${id}`)}
                             className="card-content"
                         >
                             <CardContent>
@@ -199,5 +198,5 @@ function QuestCard(props) {
 
 
 export default withRouter(
-    (QuestCard)
+    (QuestAreaCard)
 );

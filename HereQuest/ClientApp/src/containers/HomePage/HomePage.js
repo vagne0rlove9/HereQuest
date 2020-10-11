@@ -5,7 +5,7 @@ import QuestCard from "../../components/QuestCard/QuestCard";
 import Grid from "@material-ui/core/Grid";
 import "../../custom.css";
 import "./HomePage.css";
-import StudentCard from "../../components/StudentCard/StudentCard";
+import QuestAreaCard from "../../components/QuestAreaCard/QuestAreaCard";
 import Loader from "../../components/Loader/Loader";
 import {connect} from "react-redux";
 
@@ -57,10 +57,6 @@ class HomePage extends React.Component {
                         error: error,
                     })
             );
-        this.setState({
-            quests: temp,
-            loadingQuestsTourism: false
-        })
     }
 
     getQuestsPopular() {
@@ -95,34 +91,31 @@ class HomePage extends React.Component {
     }
 
     getQuestsRiddle() {
-        // var temp = []
-        // axios
-        //     .get("https://js-here.firebaseio.com/quests/tourism.json")
-        //     .then((response) => response.data)
-        //     .then(
-        //         (data) => {
-        //             //temp.push(data)
-        //             Object.keys(data).forEach((key, index) => {
-        //                 temp.push({
-        //                     id: key,
-        //                     index
-        //                 })
-        //             })
-        //             //console.log(temp);
-        //             this.props.onQuestsTourism(temp);
-        //             this.setState({
-        //                 loadingQuestsTourism: false
-        //             })
-        //         },
-        //         (error) =>
-        //             this.setState({
-        //                 error: error,
-        //             })
-        //     );
-        // this.setState({
-        //     quests: temp,
-        //     loadingQuestsTourism: false
-        // })
+        var temp = []
+        axios
+            .get("https://js-here.firebaseio.com/quests/riddle.json")
+            .then((response) => response.data)
+            .then(
+                (data) => {
+                    //temp.push(data)
+                    console.log(data)
+                    Object.keys(data).forEach((key, index) => {
+                        temp.push({
+                            id: key,
+                            index
+                        })
+                    })
+                    console.log(temp)
+                    this.props.onQuestsRiddle(temp);
+                    this.setState({
+                        loadingQuestsRiddle: false
+                    })
+                },
+                (error) =>
+                    this.setState({
+                        error: error,
+                    })
+            );
     }
 
     getQuestsTeam() {
@@ -286,7 +279,7 @@ class HomePage extends React.Component {
                     </div>
                     {this.state.loadingQuestsRiddle ? <Loader/> : null}
                     <Grid container justify="center" className="margin-bottom">
-                        {this.state.questsRiddle
+                        {this.props.questsRiddle
                             //.filter( quest => quest.city == "")
                             .slice(0, cardsCount)
                             .map((quest, index = 100) => {
@@ -302,7 +295,7 @@ class HomePage extends React.Component {
                                             zIndex: zIndex,
                                         }}
                                     >
-                                        <QuestCard quest={quest}></QuestCard>
+                                        <QuestAreaCard quest={quest}></QuestAreaCard>
                                     </Grid>
                                 );
                             })}
@@ -316,13 +309,19 @@ class HomePage extends React.Component {
 
 const mapDispachToProps = dispatch => {
     return {
-        onQuestsTourism: value => dispatch({type: "questsTourism", value: value})
+        onQuestsTourism: value => dispatch({type: "questsTourism", value: value}),
+        onQuestsRiddle: value => dispatch({type: "questsRiddle", value: value}),
+        onQuestsPopular: value => dispatch({type: "questsPopular", value: value}),
+        onQuestsTeam: value => dispatch({type: "questsTeam", value: value}),
     };
 };
 
 const mapStateToProps = state => {
     return {
-        questsTourism: state.questsTourism
+        questsTourism: state.questsTourism,
+        questsRiddle: state.questsRiddle,
+        questsPopular: state.questsPopular,
+        questsTeam: state.questsTeam,
     };
 };
 

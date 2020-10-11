@@ -1,10 +1,15 @@
 ﻿import React, {Component} from "react";
 import axios from "axios";
-import "./QuestTasks.css";
 import Map from "../Map/Map";
 import TextField from "@material-ui/core/TextField";
 import {connect} from "react-redux";
 import QuestCurrentTask from "../QuestCurrentTask/QuestCurrentTask";
+import Loader from "../Loader/Loader";
+import FormControl from "@material-ui/core/FormControl";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
+import MapArea from "../MapArea/MapArea";
 
 class QuestTasks extends Component {
     constructor(props) {
@@ -15,7 +20,8 @@ class QuestTasks extends Component {
             isNext: false,
             tasks: [],
             curTask: {},
-            curId: 0
+            curId: 0,
+            loading: true
         };
     }
 
@@ -27,57 +33,18 @@ class QuestTasks extends Component {
         this.getTasks();
     }
 
-    getCurTask() {
-        const id = this.props.match.params.id
-        var temp = []
-        axios
-            .get(`https://js-here.firebaseio.com/quests/tourism/${id}/tasks/${this.state.tasks[this.state.curId].id}.json`)
-            .then((response) => response.data)
-            .then(
-                (data) => {
-                    this.setState({curTask: data})
-                    this.setState({
-                        curTask: {
-                            ...this.state.curTask,
-                            id: this.state.curId,
-                            count: this.state.tasks.length
-                        }
-                    })
-                    const coordinates = {
-                        lat: data.x,
-                        lng: data.y,
-                        description: data.title
-                    }
-                    if(!this.props.currentCoors.includes()) {
-                        this.props.currentCoors.push(coordinates)
-                        this.props.onCoors(this.props.currentCoors)
-                        console.log("props")
-                        if(this.state.curId !== 0)
-                            this.props.onRefresh(true);
-                    }
-                    
-                }
-            );
-    }
-
     getTasks() {
         const id = this.props.match.params.id
         var temp = []
         axios
-            .get(`https://js-here.firebaseio.com/quests/tourism/${id}/tasks.json`)
+            .get(`https://js-here.firebaseio.com/quests/riddle/${id}.json`)
             .then((response) => response.data)
             .then(
                 (data) => {
-                    Object.keys(data).forEach((key, index) => {
-                        temp.push({
-                            id: key,
-                            index
-                        })
-                    })
-                    this.setState({tasks: temp})
-                    this.props.onCountQuestions(temp.length)
-                    this.getCurTask()
-                    console.log(temp)
+
+                    this.setState({tasks: data, loading: false})
+                    this.props.onCountQuestions(1)
+                    //this.getCurTask()
                 }
             );
     }
@@ -112,19 +79,19 @@ class QuestTasks extends Component {
 
     render() {
         const {curTask, error} = this.state;
-        
+
         if (error) return <div>Error: {error.message}</div>;
         return (
             <div className="container-vac-details">
-                <QuestCurrentTask task={curTask}/>
-                {this.state.errorMes ? <div className="error">Выберите вариант ответа</div> : null}
-                <button
-                    type="button"
-                    className="button-start-quest"
-                    onClick={this.handleClick}
-                >
-                    {this.state.buttonText}
-                </button>
+                {this.state.loading
+                    ? <Loader/>
+                    :
+                    <>
+                        <h3 className="header-task">{this.state.tasks.title}</h3>
+                        <h5 className="question">{this.state.tasks.description_task}</h5>
+                        <MapArea/>
+                    </>
+                }
             </div>
         );
     }
