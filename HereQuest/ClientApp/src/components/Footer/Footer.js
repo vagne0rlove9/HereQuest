@@ -41,7 +41,7 @@ class Footer extends Component {
                 <div className="footer-row row" style={{margin: "0 auto"}}>
                     <div className="col-sm-3 footer-colm">
                         <h6 className="footer-headers">MayDay</h6>
-                        <NavLink tag={Link} className="footer-link" to="/aboutus">
+                        <NavLink tag={Link} className="footer-link" to="/">
                             О проекте
                         </NavLink>
                         <div className="footer-link-div" onClick={this.handleQuest}>
