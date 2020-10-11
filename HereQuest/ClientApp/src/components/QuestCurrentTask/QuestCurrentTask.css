@@ -1,0 +1,25 @@
+.header-task{
+  margin-bottom: 20px;
+}
+
+.question{
+  color: #444444;
+  margin-bottom: 20px;
+}
+
+.error-description-red{
+  color: #bf0d0d;
+}
+
+.error-description-green{
+  color: darkgreen;
+}
+
+.question-description{
+  font-size: 1rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
