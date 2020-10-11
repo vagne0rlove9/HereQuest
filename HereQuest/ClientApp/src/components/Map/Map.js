@@ -1,6 +1,7 @@
 ﻿import * as React from 'react';
+import {connect} from "react-redux";
 
-export default class Map extends React.Component {
+class Map extends React.Component {
     mapRef = React.createRef();
 
     state = {
@@ -9,14 +10,20 @@ export default class Map extends React.Component {
     };
 
     componentDidMount() {
-        this.start();                 
+        this.start();
     }
 
     start() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
-                this.setState({ myCoordinate: { lat: position.coords.latitude, lng: position.coords.longitude, description: "Моя позиция" } });
-                this.go();
+                this.setState({
+                    myCoordinate: {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        description: "Моя позиция"
+                    }
+                });
+                setTimeout(() => this.go(), 700);
             });
         } else {
             console.error("Geolocation is not supported by this browser!");
@@ -31,19 +38,16 @@ export default class Map extends React.Component {
 
         navigator.geolocation.getCurrentPosition(function (position) {
             console.log(position);
-        });       
-
-        const coordinates = [
-            this.state.myCoordinate,
-            { lat: 55.986281, lng: 37.1705789, description: "Музей Зеленограда" },
-            { lat: 55.9831656, lng: 37.2099016, description: "НИУ МИЭТ" },
-            { lat: 55.992649, lng: 37.2195338, description: "Флейта" },
-            { lat: 55.9985958, lng: 37.2247743, description: "Общежитие МИЭТ" },
-        ];
-        console.log(coordinates);
+        });
+        var coordinates = [
+            this.state.myCoordinate
+        ]
+        this.props.currentCoors.map(c => {
+            coordinates.push(c)
+        })
 
         const defaultLayers = platform.createDefaultLayers();
-        const center = { lat: 0, lng: 0 };
+        const center = {lat: 0, lng: 0};
         coordinates.map(coordinate => {
             center.lat += coordinate.lat / coordinates.length;
             center.lng += coordinate.lng / coordinates.length;
@@ -53,7 +57,7 @@ export default class Map extends React.Component {
             defaultLayers.vector.normal.map,
             {
                 center: center,
-                zoom: 13.8,
+                zoom: 13,
             }
         );
 
@@ -94,15 +98,15 @@ export default class Map extends React.Component {
                             }
                         });
                         var routeArrows = new H.map.Polyline(linestring, {
-                            style: {
-                                lineWidth: 7,
-                                fillColor: 'white',
-                                strokeColor: 'rgba(255, 255, 255, 1)',
-                                lineDash: [0, 1],
-                                lineTailCap: 'arrow-tail',
-                                lineHeadCap: 'arrow-head'
+                                style: {
+                                    lineWidth: 7,
+                                    fillColor: 'white',
+                                    strokeColor: 'rgba(255, 255, 255, 1)',
+                                    lineDash: [0, 1],
+                                    lineTailCap: 'arrow-tail',
+                                    lineHeadCap: 'arrow-head'
+                                }
                             }
-                        }
                         );
                         var routeLine = new H.map.Group();
                         routeLine.addObjects([routeOutline, routeArrows]);
@@ -121,16 +125,169 @@ export default class Map extends React.Component {
         map.addLayer(defaultLayers.vector.normal.traffic);
         map.addLayer(defaultLayers.vector.normal.trafficincidents);
 
-        this.setState({ map });
+        this.setState({map});
     }
 
     componentWillUnmount() {
         this.state.map.dispose();
     }
 
+    routing1() {
+        this.state.map.removeObject(this.state.map.getObjects()[this.state.map.getObjects().length - 1])
+        const H = window.H;
+        
+        const platform = new H.service.Platform({
+            apikey: "ksTpcItxmjBO_GYj0B0e-ZQY8MLCuTPmPDI5nvz_ZKc"
+        });
+        const defaultLayers = platform.createDefaultLayers();
+        const ui = H.ui.UI.createDefault(this.state.map, defaultLayers, 'ru-RU');
+        const coordinate = this.props.currentCoors[this.props.currentCoors.length - 2]
+        var coordinate2 = null
+        if (this.props.currentCoors[this.props.currentCoors.length - 3] === undefined) {
+            coordinate2 = this.state.myCoordinate
+        }
+        else coordinate2 = this.props.currentCoors[this.props.currentCoors.length - 3]
+        
+        var routingParameters = {
+            'routingMode': 'fast',
+            'transportMode': 'car',
+            'origin': coordinate2.lat + ',' + coordinate2.lng,
+            'destination': coordinate.lat + ',' + coordinate.lng,
+            'return': 'polyline'
+        };
+        var onResult = (result) => {
+            if (result.routes.length) {
+                result.routes[0].sections.forEach((section) => {
+                    let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
+                    var routeOutline = new H.map.Polyline(linestring, {
+                        style: {
+                            lineWidth: 10,
+                            strokeColor: 'rgba(220,3,3,0.7)',
+                            lineTailCap: 'arrow-tail',
+                            lineHeadCap: 'arrow-head'
+                        }
+                    });
+                    var routeArrows = new H.map.Polyline(linestring, {
+                            style: {
+                                lineWidth: 7,
+                                fillColor: 'white',
+                                strokeColor: 'rgba(255, 255, 255, 1)',
+                                lineDash: [0, 1],
+                                lineTailCap: 'arrow-tail',
+                                lineHeadCap: 'arrow-head'
+                            }
+                        }
+                    );
+                    var routeLine = new H.map.Group();
+                    routeLine.addObjects([routeOutline, routeArrows]);
+                    this.state.map.addObjects([routeLine]);
+                });
+            }
+
+        }
+        var router = platform.getRoutingService(null, 8);
+        router.calculateRoute(routingParameters, onResult,
+            function (error) {
+                alert(error.message);
+            });
+
+//        this.props.onRefresh(false)
+    }
+
+    routing2() {
+        var objs = this.state.map.getObjects()[this.state.map.getObjects().length - 1];
+        console.log(objs)
+        const H = window.H;
+        const marker = new H.map.Marker(this.props.currentCoors[this.props.currentCoors.length - 1]);
+
+        const platform = new H.service.Platform({
+            apikey: "ksTpcItxmjBO_GYj0B0e-ZQY8MLCuTPmPDI5nvz_ZKc"
+        });
+        const defaultLayers = platform.createDefaultLayers();
+        const ui = H.ui.UI.createDefault(this.state.map, defaultLayers, 'ru-RU');
+        console.log(this.props.currentCoors[this.props.currentCoors.length - 1])
+        const coordinate = this.props.currentCoors[this.props.currentCoors.length - 1]
+        marker.addEventListener('tap', function (evt) {
+            const bubble = new H.ui.InfoBubble(coordinate, {
+                content: `<p>${coordinate.description}</p>`
+            });
+            ui.addBubble(bubble);
+        })
+
+        var routingParameters = {
+            'routingMode': 'fast',
+            'transportMode': 'car',
+            'origin': this.props.currentCoors[this.props.currentCoors.length - 2].lat + ',' + this.props.currentCoors[this.props.currentCoors.length - 2].lng,
+            'destination': coordinate.lat + ',' + coordinate.lng,
+            'return': 'polyline'
+        };
+        var onResult = (result) => {
+            if (result.routes.length) {
+                result.routes[0].sections.forEach((section) => {
+                    let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
+                    var routeOutline = new H.map.Polyline(linestring, {
+                        style: {
+                            lineWidth: 10,
+                            strokeColor: 'rgba(0, 128, 255, 0.7)',
+                            lineTailCap: 'arrow-tail',
+                            lineHeadCap: 'arrow-head'
+                        }
+                    });
+                    var routeArrows = new H.map.Polyline(linestring, {
+                            style: {
+                                lineWidth: 7,
+                                fillColor: 'white',
+                                strokeColor: 'rgba(255, 255, 255, 1)',
+                                lineDash: [0, 1],
+                                lineTailCap: 'arrow-tail',
+                                lineHeadCap: 'arrow-head'
+                            }
+                        }
+                    );
+                    var routeLine = new H.map.Group();
+                    routeLine.addObjects([routeOutline, routeArrows]);
+                    this.state.map.addObjects([routeLine]);
+                });
+            }
+
+        }
+        var router = platform.getRoutingService(null, 8);
+        router.calculateRoute(routingParameters, onResult,
+            function (error) {
+                alert(error.message);
+            });
+
+        this.state.map.addObject(marker);
+        this.props.onRefresh(false)
+    }
+
+    refresh() {
+        if (this.props.isRefresh) {
+            this.routing1()
+            this.routing2()
+        }
+    }
+
     render() {
+        this.refresh();
         return (
-            <div ref={this.mapRef} style={{ height: "500px" }} />
+            <div ref={this.mapRef} style={{height: "500px"}}/>
         );
     }
 }
+
+const mapDispachToProps = dispatch => {
+    return {
+        onCoors: value => dispatch({type: "currentCoors", value: value}),
+        onRefresh: value => dispatch({type: "isRefresh", value: value}),
+    };
+};
+
+const mapStateToProps = state => {
+    return {
+        currentCoors: state.currentCoors,
+        isRefresh: state.isRefresh,
+    };
+};
+
+export default connect(mapStateToProps, mapDispachToProps)(Map);

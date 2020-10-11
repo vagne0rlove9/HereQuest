@@ -46,6 +46,7 @@ class QuestDetails extends Component {
     };
 
     render() {
+        console.log("questDetails")
         const {vacancy, error} = this.state;
         window.scrollTo(0, 0);
         if (error) return <div>Error: {error.message}</div>;

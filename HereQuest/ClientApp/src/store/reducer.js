@@ -11,6 +11,8 @@
     countRightAns: 0,
     countQuestions: 0,
     questName: null,
+    currentCoors: [],
+    isRefresh: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -49,6 +51,12 @@ const reducer = (state = initialState, action) => {
             break;
         case 'questName':
             newState.questName = action.value;
+            break;
+        case 'currentCoors':
+            newState.currentCoors = action.value;
+            break;
+        case 'isRefresh':
+            newState.isRefresh = action.value;
             break;
     }
     return newState;

@@ -43,7 +43,19 @@ class QuestTasks extends Component {
                             count: this.state.tasks.length
                         }
                     })
-
+                    const coordinates = {
+                        lat: data.x,
+                        lng: data.y,
+                        description: data.title
+                    }
+                    if(!this.props.currentCoors.includes()) {
+                        this.props.currentCoors.push(coordinates)
+                        this.props.onCoors(this.props.currentCoors)
+                        console.log("props")
+                        if(this.state.curId !== 0)
+                            this.props.onRefresh(true);
+                    }
+                    
                 }
             );
     }
@@ -65,6 +77,7 @@ class QuestTasks extends Component {
                     this.setState({tasks: temp})
                     this.props.onCountQuestions(temp.length)
                     this.getCurTask()
+                    console.log(temp)
                 }
             );
     }
@@ -99,6 +112,7 @@ class QuestTasks extends Component {
 
     render() {
         const {curTask, error} = this.state;
+        
         if (error) return <div>Error: {error.message}</div>;
         return (
             <div className="container-vac-details">
@@ -123,6 +137,8 @@ const mapDispachToProps = dispatch => {
         onDesc: value => dispatch({type: "isDesc", value: value}),
         onCountRightAns: value => dispatch({type: "countRightAns", value: value}),
         onCountQuestions: value => dispatch({type: "countQuestions", value: value}),
+        onCoors: value => dispatch({type: "currentCoors", value: value}),
+        onRefresh: value => dispatch({type: "isRefresh", value: value}),
     };
 };
 
@@ -131,6 +147,7 @@ const mapStateToProps = state => {
         isRight: state.isRight,
         answer: state.answer,
         countRightAns: state.countRightAns,
+        currentCoors: state.currentCoors,
     };
 };
 
