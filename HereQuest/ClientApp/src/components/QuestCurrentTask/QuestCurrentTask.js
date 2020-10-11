@@ -9,6 +9,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
+import Loader from "../Loader/Loader";
 
 class QuestCurrentTask extends Component {
     constructor(props) {
@@ -17,7 +18,8 @@ class QuestCurrentTask extends Component {
             quest: {},
             ans: null,
             errorMes: null,
-            correct: false
+            correct: false,
+            loading: true
         };
     }
 
@@ -26,11 +28,13 @@ class QuestCurrentTask extends Component {
     }
 
     componentDidMount() {
-        this.getVacancy();
+        this.getVacancy()
+        this.props.onDesc(true)
+
     }
 
     getVacancy() {
-        
+
         //const id = this.props.match.params.id;
         //const url = `${APP_URL_DEV}/api/vacancies/${id}`;
 
@@ -49,50 +53,56 @@ class QuestCurrentTask extends Component {
         //     );
     }
 
-    handleStartQuest = () => {
-        this.props.history.push('/quests/1')
-    };
-
     handleChangeAns = (event) => {
         this.props.onAnswer(event.target.value)
-        if (event.target.value === "3") {
+        if (event.target.value === this.props.task.right.toString()) {
             this.props.onFlag(true);
             this.setState({correct: true})
         } else {
             this.props.onFlag(false);
             this.setState({correct: false})
         }
-        this.setState({ans: event.target.value})
     }
 
     render() {
         const {vacancy, error} = this.state;
+        setTimeout(() => this.setState({loading: false}), 600)
         if (error) return <div>Error: {error.message}</div>;
         return (
-            <>
-                <h3 className="header-task">Задание 1</h3>
-                <h5 className="question">В каком году был основан город Зеленоград?</h5>
-                <Map/>
-                {this.props.isDesc 
-                    ?
-                    <div className="row div-row" style={{marginLeft: "0", marginTop: "20px"}}>
-                        <FormControl component="fieldset">
-                            <h5 className="question">Варианты ответа:</h5>
-                            <RadioGroup aria-label="gender" name="gender1" value={this.state.ans}
-                                        onChange={this.handleChangeAns}>
-                                <FormControlLabel value="1" control={<Radio/>} label="1957"/>
-                                <FormControlLabel value="2" control={<Radio/>} label="1952"/>
-                                <FormControlLabel value="3" control={<Radio/>} label="1956"/>
-                                <FormControlLabel value="4" control={<Radio/>} label="1980"/>
-                            </RadioGroup>
-                        </FormControl>
-                    </div>
+            <div>
+                {this.state.loading
+                    ? <Loader/>
                     :
-                    <div className="row div-row" style={{marginLeft: "0", marginTop: "20px"}}>
-                        <h5 className="question-description">{this.state.correct ? "Вы ответили правильно!" : "Вы ответили неправильно!"}<br/>Описание</h5>
-                    </div>
+                    <>
+                        <h3 className="header-task">Задание {this.props.task.id + 1} из {this.props.task.count}</h3>
+                        <h5 className="question">{this.props.task.question}</h5>
+                        <Map/>
+                        {this.props.isDesc
+                            ?
+                            <div className="row div-row" style={{marginLeft: "0", marginTop: "20px"}}>
+                                <FormControl component="fieldset">
+                                    <h5 className="question">Варианты ответа:</h5>
+                                    <RadioGroup aria-label="gender" name="gender1" value={this.props.answer}
+                                                onChange={this.handleChangeAns}>
+                                        <FormControlLabel value="1" control={<Radio/>} label={this.props.task.var_1}/>
+                                        <FormControlLabel value="2" control={<Radio/>} label={this.props.task.var_2}/>
+                                        <FormControlLabel value="3" control={<Radio/>} label={this.props.task.var_3}/>
+                                        <FormControlLabel value="4" control={<Radio/>} label={this.props.task.var_4}/>
+                                    </RadioGroup>
+                                </FormControl>
+                            </div>
+                            :
+                            <div className="row div-row" style={{marginLeft: "0", marginTop: "20px"}}>
+                                {this.state.correct
+                                    ? <h5 className="error-description-green">Вы ответили правильно!</h5>
+                                    : <h5 className="error-description-red">Вы ответили неправильно!</h5>
+                                }
+                                <br/><h6 className="question-description">{this.props.task.description}</h6>
+                            </div>
+                        }
+                    </>
                 }
-            </>
+            </div>
         );
     }
 }
@@ -100,7 +110,8 @@ class QuestCurrentTask extends Component {
 const mapDispachToProps = dispatch => {
     return {
         onFlag: value => dispatch({type: "isRight", value: value}),
-        onAnswer: value => dispatch({type: "answer", value: value})
+        onAnswer: value => dispatch({type: "answer", value: value}),
+        onDesc: value => dispatch({type: "isDesc", value: value})
     };
 };
 

@@ -30,15 +30,9 @@ class Footer extends Component {
         );
     };
 
-    showResults = (e) => {
-        e.preventDefault();
-        var r = ["yandex", "yahoo", "google"];
-        if (r[0].includes(e.target.value)) this.results = r[0];
-    };
 
-    handleVacancies = () => {
-        this.props.onSearch("StudJent");
-        this.props.history.push("/searchvac");
+    handleQuest = () => {
+        this.props.history.push("/aboutquest");
     }
 
     render() {
@@ -50,7 +44,7 @@ class Footer extends Component {
                         <NavLink tag={Link} className="footer-link" to="/aboutus">
                             О проекте
                         </NavLink>
-                        <div className="footer-link-div" onClick={this.handleVacancies}>
+                        <div className="footer-link-div" onClick={this.handleQuest}>
                             Что такое геоквест
                         </div>
                     </div>

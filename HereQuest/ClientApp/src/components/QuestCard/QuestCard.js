@@ -79,6 +79,7 @@ function QuestCard(props) {
     const history = useHistory();
     const [flag, setFlag] = React.useState(true);
     const [quest, setQuest] = React.useState(null);
+    const id = props.quest.id 
     axios
         .get(`https://js-here.firebaseio.com/quests/tourism/${props.quest.id}.json`)
         .then((response) => response.data)
@@ -134,7 +135,7 @@ function QuestCard(props) {
                             }
                             title={
                                 <Typography
-                                    onClick={() => history.push(`/quests/${quest.id}`)}
+                                    onClick={() => history.push(`/quests/${id}`)}
                                     variant="body2"
                                     color="textSecondary"
                                     component="p"
@@ -145,7 +146,7 @@ function QuestCard(props) {
                         />
                         <CardHeader
                             className={classes.cardHeader}
-                            onClick={() => history.push(`/quests`)}
+                            onClick={() => history.push(`/quests/${id}`)}
                             title={
                                 <Typography variant="h6" component="p">
                                     {quest !== null ? quest.title : null}
@@ -153,7 +154,7 @@ function QuestCard(props) {
                             }
                         />
                         <div
-                            onClick={() => history.push(`/quests`)}
+                            onClick={() => history.push(`/quests/${id}`)}
                             className="card-content"
                         >
                             <CardContent>
