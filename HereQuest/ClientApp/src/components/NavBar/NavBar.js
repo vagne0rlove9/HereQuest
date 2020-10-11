@@ -29,6 +29,7 @@ const styles = (theme) => ({
     color: "white",
     display: "none",
     fontWeight: "bold",
+    fontFamily: "Black Square",
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
@@ -220,7 +221,7 @@ class NavBar extends React.Component {
               onClick={this.handleClickHomePage}
               noWrap
             >
-              MayDay
+              <img src={"./images/logo.png"} style={{height: "32px"}} alt=""/>
             </Typography>
             <div className={classes.sectionDesktop}>
               <form
