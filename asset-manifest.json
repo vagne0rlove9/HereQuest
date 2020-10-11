@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/HereQuest/static/css/main.7bfb643e.chunk.css",
+    "main.js": "/HereQuest/static/js/main.2abb164b.chunk.js",
+    "main.js.map": "/HereQuest/static/js/main.2abb164b.chunk.js.map",
+    "runtime-main.js": "/HereQuest/static/js/runtime-main.66a1c641.js",
+    "runtime-main.js.map": "/HereQuest/static/js/runtime-main.66a1c641.js.map",
+    "static/css/2.67123b20.chunk.css": "/HereQuest/static/css/2.67123b20.chunk.css",
+    "static/js/2.b79c096a.chunk.js": "/HereQuest/static/js/2.b79c096a.chunk.js",
+    "static/js/2.b79c096a.chunk.js.map": "/HereQuest/static/js/2.b79c096a.chunk.js.map",
+    "index.html": "/HereQuest/index.html",
+    "precache-manifest.910be13a26eb2c7a9503d6fe17c9ff24.js": "/HereQuest/precache-manifest.910be13a26eb2c7a9503d6fe17c9ff24.js",
+    "service-worker.js": "/HereQuest/service-worker.js",
+    "static/css/2.67123b20.chunk.css.map": "/HereQuest/static/css/2.67123b20.chunk.css.map",
+    "static/css/main.7bfb643e.chunk.css.map": "/HereQuest/static/css/main.7bfb643e.chunk.css.map",
+    "static/js/2.b79c096a.chunk.js.LICENSE.txt": "/HereQuest/static/js/2.b79c096a.chunk.js.LICENSE.txt",
+    "static/media/HomePage.css": "/HereQuest/static/media/loft_mob.fd5e5670.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.66a1c641.js",
+    "static/css/2.67123b20.chunk.css",
+    "static/js/2.b79c096a.chunk.js",
+    "static/css/main.7bfb643e.chunk.css",
+    "static/js/main.2abb164b.chunk.js"
+  ]
+}
