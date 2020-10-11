@@ -38,8 +38,8 @@ export default class MapArea extends React.Component {
                 // this.setState({ myCoordinate: { lat: position.coords.latitude, lng: position.coords.longitude, description: "Моя позиция" } });
                 this.setState({
                     myCoordinate: {
-                        lat: Math.random() % 5 / 1000 + 55.988804,
-                        lng: Math.random() % 5 / 1000 + 37.210889,
+                        lat: Math.random() % 3 / 1000 + 55.989804,
+                        lng: Math.random() % 3 / 1000 + 37.209889,
                         description: "Моя позиция"
                     }
                 });
@@ -81,87 +81,7 @@ export default class MapArea extends React.Component {
 
         const ui = H.ui.UI.createDefault(map, defaultLayers, 'ru-RU');
         const mapEvents = new H.mapevents.MapEvents(map);
-        const behavior = new H.mapevents.Behavior(mapEvents);
-        var newCircle = new H.map.Circle(
-            new H.geo.Point(this.state.teaser.lat, this.state.teaser.lng),
-            this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng) / 2,
-            {style: {fillColor: 'rgba(221, 0, 255, 0.66)'}}
-        );
-        //map.addObject(newCircle);
-
-
-        /*
-        var container = new H.map.Group({
-            objects: [newCircle]
-        });
-        container.addEventListener('tap', function (evt) {
-            var target = evt.target;
-            var maxZoom = target.getData().maxZoom;
-            map.getViewModel().setLookAtData({
-                zoom: maxZoom,
-                bounds: target.getBoundingBox()
-            });
-        });*/
-
-        // add objects to the map
-        //map.addObject([newCircle]);
-
-        /*
-        coordinates.map(coordinate => {
-            const marker = new H.map.Marker(coordinate);
-            map.addObject(marker);
-            marker.addEventListener('tap', function (evt) {
-                const bubble = new H.ui.InfoBubble(coordinate, {
-                    content: `<p>${coordinate.description}</p>`
-                });
-                ui.addBubble(bubble);
-            })
-        });
-        for (var i = 0; i < coordinates.length - 1; i++) {
-            console.log(i);
-            var routingParameters = {
-                'routingMode': 'fast',
-                'transportMode': 'car',
-                'origin': coordinates[i].lat + ',' + coordinates[i].lng,
-                'destination': coordinates[i + 1].lat + ',' + coordinates[i + 1].lng,
-                'return': 'polyline'
-            };
-            var onResult = function (result) {
-                if (result.routes.length) {
-                    result.routes[0].sections.forEach((section) => {
-                        let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
-                        var routeOutline = new H.map.Polyline(linestring, {
-                            style: {
-                                lineWidth: 10,
-                                strokeColor: 'rgba(0, 128, 255, 0.7)',
-                                lineTailCap: 'arrow-tail',
-                                lineHeadCap: 'arrow-head'
-                            }
-                        });
-                        var routeArrows = new H.map.Polyline(linestring, {
-                            style: {
-                                lineWidth: 7,
-                                fillColor: 'white',
-                                strokeColor: 'rgba(255, 255, 255, 1)',
-                                lineDash: [0, 1],
-                                lineTailCap: 'arrow-tail',
-                                lineHeadCap: 'arrow-head'
-                            }
-                        }
-                        );
-                        var routeLine = new H.map.Group();
-                        routeLine.addObjects([routeOutline, routeArrows]);
-                        map.addObjects([routeLine]);
-                    });
-                }
-            }
-            var router = platform.getRoutingService(null, 8);
-            router.calculateRoute(routingParameters, onResult,
-                function (error) {
-                    alert(error.message);
-                });
-        }
-        */
+        const behavior = new H.mapevents.Behavior(mapEvents);  
 
         map.addLayer(defaultLayers.vector.normal.traffic);
         map.addLayer(defaultLayers.vector.normal.trafficincidents);
@@ -172,31 +92,41 @@ export default class MapArea extends React.Component {
     }
 
     async refreshMap() {
+        /*this.setState({
+            myCoordinate: {
+                lat: 55.990804,
+                lng: 37.212889,
+                description: "Моя позиция"
+            }
+        });*/        
         if (this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng) < 10) {
-            console.log("Winner");
+            alert("You are Winner!");
         } else {
-            console.log(20);
             const H = window.H;
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
-                    var lat = Math.random() % 3 / 1000 + 55.980804;
-                    var lng = Math.random() % 3 / 1000 + 37.202889;
-                    console.log(lat + " " + lng);
-                    this.setState({myCoordinate: {lat: lat, lng: lng, description: "Моя позиция"}});
+                    // this.setState({ myCoordinate: { lat: position.coords.latitude, lng: position.coords.longitude, description: "Моя позиция" } });
+                    this.setState({
+                        myCoordinate: {
+                            lat: Math.random() % 3 / 1000 + 55.989804,
+                            lng: Math.random() % 3 / 1000 + 37.209889,
+                            description: "Моя позиция"
+                        }
+                    });
                 });
             } else {
                 console.error("Geolocation is not supported by this browser!");
             }
-            var dx = this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng) / 100
-            var dy = this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng) / 100
-            var x = this.state.teaser.lat + (Math.random() % (dx+1) - (dx/2))/1000 
-            var y = this.state.teaser.lng + (Math.random() % (dy+1) - (dy/2))/1000
-            console.log((Math.random() % (dx+1) - (dx/2))/1000)
-            console.log((Math.random() % (dy+1) - (dy/2))/1000)
-            var r = this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng) / 2
-            
+            var distance = this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng);
+            var dx = distance / 1000;
+            var dy = distance / 1000;
+            var lat = this.state.teaser.lat + (Math.random() % (dx + 1) - (dx / 2)) / 1000;
+            var lng = this.state.teaser.lng + (Math.random() % (dy + 1) - (dy / 2)) / 1000;
+            var radius = distance / 2;
+            console.log(lat + " " + lng + " " + radius);
+
             var newCircle = new H.map.Circle(
-                new H.geo.Point(x, y, r),
+                new H.geo.Point(lat, lng), radius,
                 {style: {fillColor: 'rgba(221, 0, 255, 0.66)'}}
             );
             this.state.map.removeObjects(this.state.map.getObjects());
