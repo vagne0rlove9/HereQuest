@@ -79,15 +79,18 @@ function QuestAreaCard(props) {
     const [flag, setFlag] = React.useState(true);
     const [quest, setQuest] = React.useState(null);
     const id = props.quest.id 
-    axios
-        .get(`https://js-here.firebaseio.com/quests/riddle/${props.quest.id}.json`)
-        .then((response) => response.data)
-        .then(
-            (data) => {
-                setQuest(data)              
-            }
-        );
-    
+    useEffect(() => {
+
+        axios
+            .get(`https://js-here.firebaseio.com/quests/riddle/${props.quest.id}.json`)
+            .then((response) => response.data)
+            .then(
+                (data) => {
+                    setQuest(data)
+                }
+            );
+
+    }, []);
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };

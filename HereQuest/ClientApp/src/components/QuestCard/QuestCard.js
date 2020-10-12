@@ -79,16 +79,21 @@ function QuestCard(props) {
     const history = useHistory();
     const [flag, setFlag] = React.useState(true);
     const [quest, setQuest] = React.useState(null);
+    const [imgPath, setPath] = React.useState("");
     const id = props.quest.id 
-    axios
-        .get(`https://js-here.firebaseio.com/quests/tourism/${props.quest.id}.json`)
-        .then((response) => response.data)
-        .then(
-            (data) => {
-                setQuest(data)              
-            }
-        );
-    
+    useEffect(() => {
+        
+        axios
+            .get(`https://js-here.firebaseio.com/quests/tourism/${props.quest.id}.json`)
+            .then((response) => response.data)
+            .then(
+                (data) => {
+                    setQuest(data)
+                    setPath(data.img2)
+                }
+            );
+        
+    }, []);
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -112,37 +117,17 @@ function QuestCard(props) {
         </Menu>
     );
     
+    
     return (
         <>
             {flag === true ? (
                 <>
                     <Card className={classes.root} id="card">
-                        <CardHeader
-                            className={classes.cardHeader}
-                            avatar={
-                                <Avatar aria-label="recipe" className={classes.avatar}>
-                                    {quest !== null ? quest.city.slice(0,1) : null}
-                                </Avatar>
-                            }
-                            action={
-                                <>
-                                    {props && props.pagePurpose === "profile" ? (
-                                        <IconButton aria-label="settings">
-                                            <SettingsIcon/>
-                                        </IconButton>
-                                    ) : null}
-                                </>
-                            }
-                            title={
-                                <Typography
-                                    onClick={() => history.push(`/quests/tourism/${id}`)}
-                                    variant="body2"
-                                    color="textSecondary"
-                                    component="p"
-                                >
-                                    {quest !== null ? quest.city : null}
-                                </Typography>
-                            }
+
+                        <img
+                            src={imgPath}
+                            onClick={() => history.push(`/quests/tourism/${id}`)}
+                            style={{ height: "150px", width: "100%", objectFit: "cover" }} alt=""
                         />
                         <CardHeader
                             className={classes.cardHeader}
@@ -201,3 +186,31 @@ function QuestCard(props) {
 export default withRouter(
     (QuestCard)
 );
+
+//<CardHeader
+//    className={classes.cardHeader}
+//    avatar={
+//        <Avatar aria-label="recipe" className={classes.avatar}>
+//            {quest !== null ? quest.city.slice(0, 1) : null}
+//        </Avatar>
+//    }
+//    action={
+//        <>
+//            {props && props.pagePurpose === "profile" ? (
+//                <IconButton aria-label="settings">
+//                    <SettingsIcon />
+//                </IconButton>
+//            ) : null}
+//        </>
+//    }
+//    title={
+//        <Typography
+//            onClick={() => history.push(`/quests/tourism/${id}`)}
+//            variant="body2"
+//            color="textSecondary"
+//            component="p"
+//        >
+//            {quest !== null ? quest.city : null}
+//        </Typography>
+//    }
+///>

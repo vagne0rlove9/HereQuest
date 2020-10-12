@@ -49,7 +49,6 @@ class HomePage extends React.Component {
                     this.setState({
                         loadingQuestsTourism: false
                     })
-                    //console.log(temp);
                     this.props.onQuestsTourism(temp);
                     
                    
@@ -113,14 +112,14 @@ class HomePage extends React.Component {
             .then(
                 (data) => {
                     //temp.push(data)
-                    console.log(data)
+                    //console.log(data)
                     Object.keys(data).forEach((key, index) => {
                         temp.push({
                             id: key,
                             index
                         })
                     })
-                    console.log(temp)
+                    //console.log(temp)
                     this.props.onQuestsRiddle(temp);
                     this.setState({
                         loadingQuestsRiddle: false
