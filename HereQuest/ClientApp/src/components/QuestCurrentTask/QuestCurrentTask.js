@@ -60,7 +60,7 @@ const QuestCurrentTask = (props) => {
     //     }
     // }
     const [correct, setCorrect] = React.useState(false)
-    //const [loading, setLoading] = React.useState(this)
+    const [loading, setLoading] = React.useState(this)
     const handleChangeAns = (event) => {
         props.onAnswer(event.target.value)
         if (event.target.value === props.task.right.toString()) {
@@ -78,6 +78,7 @@ const QuestCurrentTask = (props) => {
     }
 
     setTimeout(() => props.onLoading(false), 600)
+    //setTimeout(() => setLoading(false), 600)
     //new Promise(resolve => setTimeout(setLoading(false), 600));
     return (
         <div>

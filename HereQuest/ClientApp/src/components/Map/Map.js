@@ -1,5 +1,6 @@
 ﻿import * as React from 'react';
 import {connect} from "react-redux";
+import { createRef } from 'react';
 
 class Map extends React.Component {
     mapRef = React.createRef();
@@ -11,6 +12,7 @@ class Map extends React.Component {
 
     componentDidMount() {
         this.start();
+        setTimeout(() => this.refresh(), 900);
     }
 
     start() {
@@ -85,19 +87,20 @@ class Map extends React.Component {
                 'destination': coordinates[i + 1].lat + ',' + coordinates[i + 1].lng,
                 'return': 'polyline'
             };
-            var onResult = function (result) {
-                if (result.routes.length) {
-                    result.routes[0].sections.forEach((section) => {
-                        let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
-                        var routeOutline = new H.map.Polyline(linestring, {
-                            style: {
-                                lineWidth: 10,
-                                strokeColor: 'rgba(0, 128, 255, 0.7)',
-                                lineTailCap: 'arrow-tail',
-                                lineHeadCap: 'arrow-head'
-                            }
-                        });
-                        var routeArrows = new H.map.Polyline(linestring, {
+            if (this.props.currentCoors.length >= 2) {
+                var onResult = function (result) {
+                    if (result.routes.length) {
+                        result.routes[0].sections.forEach((section) => {
+                            let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
+                            var routeOutline = new H.map.Polyline(linestring, {
+                                style: {
+                                    lineWidth: 10,
+                                    strokeColor: 'rgba(0, 128, 255, 0.7)',
+                                    lineTailCap: 'arrow-tail',
+                                    lineHeadCap: 'arrow-head'
+                                }
+                            });
+                            var routeArrows = new H.map.Polyline(linestring, {
                                 style: {
                                     lineWidth: 7,
                                     fillColor: 'white',
@@ -107,13 +110,46 @@ class Map extends React.Component {
                                     lineHeadCap: 'arrow-head'
                                 }
                             }
-                        );
-                        var routeLine = new H.map.Group();
-                        routeLine.addObjects([routeOutline, routeArrows]);
-                        map.addObjects([routeLine]);
-                    });
-                }
+                            );
+                            var routeLine = new H.map.Group();
+                            routeLine.addObjects([routeOutline, routeArrows]);
+                            map.addObjects([routeLine]);
+                        });
+                    }
 
+                }
+            }
+            else {
+                var onResult = function (result) {
+                    if (result.routes.length) {
+                        result.routes[0].sections.forEach((section) => {
+                            let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
+                            var routeOutline = new H.map.Polyline(linestring, {
+                                style: {
+                                    lineWidth: 10,
+                                    strokeColor: 'rgba(255, 0, 0, 0.7)',
+                                    lineTailCap: 'arrow-tail',
+                                    lineHeadCap: 'arrow-head'
+                                }
+                            });
+                            var routeArrows = new H.map.Polyline(linestring, {
+                                style: {
+                                    lineWidth: 7,
+                                    fillColor: 'white',
+                                    strokeColor: 'rgba(255, 255, 255, 1)',
+                                    lineDash: [0, 1],
+                                    lineTailCap: 'arrow-tail',
+                                    lineHeadCap: 'arrow-head'
+                                }
+                            }
+                            );
+                            var routeLine = new H.map.Group();
+                            routeLine.addObjects([routeOutline, routeArrows]);
+                            map.addObjects([routeLine]);
+                        });
+                    }
+
+                }
             }
             var router = platform.getRoutingService(null, 8);
             router.calculateRoute(routingParameters, onResult,
@@ -133,7 +169,7 @@ class Map extends React.Component {
     }
 
     routing1() {
-        this.state.map.removeObject(this.state.map.getObjects()[this.state.map.getObjects().length - 1])
+        //this.state.map.removeObject(this.state.map.getObjects()[this.state.map.getObjects().length - 1])
         const H = window.H;
         
         const platform = new H.service.Platform({
@@ -228,7 +264,7 @@ class Map extends React.Component {
                     var routeOutline = new H.map.Polyline(linestring, {
                         style: {
                             lineWidth: 10,
-                            strokeColor: 'rgba(0, 128, 255, 0.7)',
+                            strokeColor: 'rgba(255, 0, 0, 0.7)',
                             lineTailCap: 'arrow-tail',
                             lineHeadCap: 'arrow-head'
                         }
@@ -258,18 +294,22 @@ class Map extends React.Component {
             });
 
         this.state.map.addObject(marker);
-        this.props.onRefresh(false)
+        
     }
 
     refresh() {
         if (this.props.isRefresh) {
-            this.routing1()
+            //this.routing1()
             this.routing2()
+            //this.mapRef = createRef()
+            //this.mapRef.current = null
+            //this.start()
+            this.props.onRefresh(false)
         }
     }
 
     render() {
-        this.refresh();
+        
         return (
             <div ref={this.mapRef} style={{height: "500px"}}/>
         );
