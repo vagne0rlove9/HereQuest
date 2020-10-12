@@ -32,7 +32,9 @@ export default class MapArea extends React.Component {
     }
 
     start() {
-        this.setState({teaser: {lat: 55.990804, lng: 37.212889, description: "Загадка"}});
+        this.setState({
+            teaser: {
+                lat: 55.983284, lng: 37.210029, description: "Загадка"}});
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 this.setState({ myCoordinate: { lat: position.coords.latitude, lng: position.coords.longitude, description: "Моя позиция" } });
@@ -74,10 +76,12 @@ export default class MapArea extends React.Component {
             this.mapRef.current,
             defaultLayers.vector.normal.map,
             {
-                center: center,
+                center: this.state.teaser,
                 zoom: 15,
             }
         );
+        console.log(this.state.teaser.lat);
+        console.log(this.state.teaser.lng);
 
         const ui = H.ui.UI.createDefault(map, defaultLayers, 'ru-RU');
         const mapEvents = new H.mapevents.MapEvents(map);
@@ -113,6 +117,8 @@ export default class MapArea extends React.Component {
                             description: "Моя позиция"
                         }
                     });*/
+                    const marker = new H.map.Marker(this.state.teaser);
+                    this.state.map.addObject(marker);
                 });
             } else {
                 console.error("Geolocation is not supported by this browser!");
