@@ -35,14 +35,14 @@ export default class MapArea extends React.Component {
         this.setState({teaser: {lat: 55.990804, lng: 37.212889, description: "Загадка"}});
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
-                // this.setState({ myCoordinate: { lat: position.coords.latitude, lng: position.coords.longitude, description: "Моя позиция" } });
-                this.setState({
+                this.setState({ myCoordinate: { lat: position.coords.latitude, lng: position.coords.longitude, description: "Моя позиция" } });
+                /*this.setState({
                     myCoordinate: {
                         lat: Math.random() % 3 / 1000 + 55.989804,
                         lng: Math.random() % 3 / 1000 + 37.209889,
                         description: "Моя позиция"
                     }
-                });
+                });*/
                 this.go();
             });
         } else {
@@ -105,14 +105,14 @@ export default class MapArea extends React.Component {
             const H = window.H;
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
-                    // this.setState({ myCoordinate: { lat: position.coords.latitude, lng: position.coords.longitude, description: "Моя позиция" } });
-                    this.setState({
+                    this.setState({ myCoordinate: { lat: position.coords.latitude, lng: position.coords.longitude, description: "Моя позиция" } });
+                    /*this.setState({
                         myCoordinate: {
                             lat: Math.random() % 3 / 1000 + 55.989804,
                             lng: Math.random() % 3 / 1000 + 37.209889,
                             description: "Моя позиция"
                         }
-                    });
+                    });*/
                 });
             } else {
                 console.error("Geolocation is not supported by this browser!");
