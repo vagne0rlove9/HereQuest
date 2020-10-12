@@ -60,7 +60,7 @@ const QuestCurrentTask = (props) => {
     //     }
     // }
     const [correct, setCorrect] = React.useState(false)
-    const [loading, setLoading] = React.useState(true)
+    const [loading, setLoading] = React.useState(this)
     const handleChangeAns = (event) => {
         props.onAnswer(event.target.value)
         if (event.target.value === props.task.right.toString()) {
@@ -76,12 +76,13 @@ const QuestCurrentTask = (props) => {
         lng: props.task.y,
         description: props.task.title
     }
-    
-    setTimeout(() => setLoading(false), 600)
+
+    setTimeout(() => props.onLoading(false), 600)
+    //setTimeout(() => setLoading(false), 600)
     //new Promise(resolve => setTimeout(setLoading(false), 600));
     return (
         <div>
-            {loading
+            {props.loadingTask
                 ? <Loader/>
                 :
                 <>
@@ -122,13 +123,15 @@ const mapDispachToProps = dispatch => {
         onFlag: value => dispatch({type: "isRight", value: value}),
         onAnswer: value => dispatch({type: "answer", value: value}),
         onDesc: value => dispatch({type: "isDesc", value: value}),
-        onCoors: value => dispatch({type: "currentCoors", value: value}),
+        onCoors: value => dispatch({ type: "currentCoors", value: value }),
+        onLoading: value => dispatch({ type: "loadingTask", value: value }),
     };
 };
 
 const mapStateToProps = state => {
     return {
         isRight: state.isRight,
+        loadingTask: state.loadingTask,
         isDesc: state.isDesc,
         currentCoors: state.currentCoors,
     };

@@ -13,6 +13,7 @@
     questName: null,
     currentCoors: [],
     isRefresh: false,
+    loadingTask: true,
 };
 
 const reducer = (state = initialState, action) => {
@@ -57,6 +58,9 @@ const reducer = (state = initialState, action) => {
             break;
         case 'isRefresh':
             newState.isRefresh = action.value;
+            break;
+        case 'loadingTask':
+            newState.loadingTask = action.value;
             break;
     }
     return newState;
