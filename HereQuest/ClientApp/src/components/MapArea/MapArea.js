@@ -34,7 +34,7 @@ export default class MapArea extends React.Component {
     start() {
         this.setState({
             teaser: {
-                lat: 55.983284, lng: 37.210029, description: "Загадка"}});
+                lat: 55.998339, lng:37.225598, description: "Загадка"}});
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 this.setState({ myCoordinate: { lat: position.coords.latitude, lng: position.coords.longitude, description: "Моя позиция" } });
@@ -80,8 +80,7 @@ export default class MapArea extends React.Component {
                 zoom: 15,
             }
         );
-        console.log(this.state.teaser.lat);
-        console.log(this.state.teaser.lng);
+        console.log(this.state.teaser.lat + " " + this.state.teaser.lng);
 
         const ui = H.ui.UI.createDefault(map, defaultLayers, 'ru-RU');
         const mapEvents = new H.mapevents.MapEvents(map);
@@ -107,6 +106,11 @@ export default class MapArea extends React.Component {
             alert("You are Winner!");
         } else {
             const H = window.H;
+            const platform = new H.service.Platform({
+                apikey: "ksTpcItxmjBO_GYj0B0e-ZQY8MLCuTPmPDI5nvz_ZKc"
+            });
+            const defaultLayers = platform.createDefaultLayers();
+            const ui = H.ui.UI.createDefault(this.state.map, defaultLayers, 'ru-RU');
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
                     this.setState({ myCoordinate: { lat: position.coords.latitude, lng: position.coords.longitude, description: "Моя позиция" } });
@@ -117,27 +121,39 @@ export default class MapArea extends React.Component {
                             description: "Моя позиция"
                         }
                     });*/
-                    const marker = new H.map.Marker(this.state.teaser);
-                    this.state.map.addObject(marker);
-                });
+                    const markerTeaser = new H.map.Marker(this.state.teaser);
+                    this.state.map.addObject(markerTeaser);
+
+                    const markerGPS = new H.map.Marker(this.state.myCoordinate);
+                    const coordinate = this.state.myCoordinate;
+                    markerGPS.addEventListener('tap', function (evt) {
+                        const bubble = new H.ui.InfoBubble(coordinate, {
+                            content: `<p>${coordinate.description}</p>`
+                        });
+                        ui.addBubble(bubble);
+                    })
+                    this.state.map.addObject(markerGPS);
+                });               
             } else {
                 console.error("Geolocation is not supported by this browser!");
             }
-            var distance = this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng);
-            var dx = distance / 1000;
-            var dy = distance / 1000;
-            var lat = this.state.teaser.lat + (Math.random() % (dx + 1) - (dx / 2)) / 1000;
-            var lng = this.state.teaser.lng + (Math.random() % (dy + 1) - (dy / 2)) / 1000;
-            var radius = distance / 2;
-            console.log(lat + " " + lng + " " + radius);
+            var offset = 637100;
+            var distance = this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng) / offset;
+            var maxDRadius = distance / 6;
+            var radius = 2 * maxDRadius;
+            var a = Math.random() % 360;
+            var lat = this.state.teaser.lat + Math.cos(a) * radius;
+            var lng = this.state.teaser.lng + Math.sin(a) * radius;
+            
+            console.log(lat + " " + lng + " " + radius * offset);
 
             var newCircle = new H.map.Circle(
-                new H.geo.Point(lat, lng), radius,
+                new H.geo.Point(lat, lng), radius * offset,
                 {style: {fillColor: 'rgba(221, 0, 255, 0.66)'}}
             );
             this.state.map.removeObjects(this.state.map.getObjects());
             this.state.map.addObject(newCircle);
-            await new Promise(resolve => setTimeout(resolve, 5000));
+            await new Promise(resolve => setTimeout(resolve, 10000));
             this.refreshMap();
         }
     }
