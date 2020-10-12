@@ -63,6 +63,7 @@ class QuestTasks extends Component {
     getTasks() {
         const id = this.props.match.params.id
         var temp = []
+        this.props.onCoors([])
         axios
             .get(`https://js-here.firebaseio.com/quests/tourism/${id}/tasks.json`)
             .then((response) => response.data)

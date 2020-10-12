@@ -87,7 +87,7 @@ class Map extends React.Component {
                 'destination': coordinates[i + 1].lat + ',' + coordinates[i + 1].lng,
                 'return': 'polyline'
             };
-            if (this.props.currentCoors.length >= 2) {
+            if (this.props.currentCoors.length > 1) {
                 var onResult = function (result) {
                     if (result.routes.length) {
                         result.routes[0].sections.forEach((section) => {
@@ -95,7 +95,7 @@ class Map extends React.Component {
                             var routeOutline = new H.map.Polyline(linestring, {
                                 style: {
                                     lineWidth: 10,
-                                    strokeColor: 'rgba(0, 128, 255, 0.7)',
+                                    strokeColor: 'rgba(255, 0, 0, 0.7)',
                                     lineTailCap: 'arrow-tail',
                                     lineHeadCap: 'arrow-head'
                                 }
@@ -127,7 +127,7 @@ class Map extends React.Component {
                             var routeOutline = new H.map.Polyline(linestring, {
                                 style: {
                                     lineWidth: 10,
-                                    strokeColor: 'rgba(255, 0, 0, 0.7)',
+                                    strokeColor: 'rgba(0, 128, 255, 0.7)',
                                     lineTailCap: 'arrow-tail',
                                     lineHeadCap: 'arrow-head'
                                 }
@@ -165,7 +165,8 @@ class Map extends React.Component {
     }
 
     componentWillUnmount() {
-        this.state.map.dispose();
+        if (this.state.map !== null)
+            this.state.map.dispose();
     }
 
     routing1() {
@@ -264,7 +265,7 @@ class Map extends React.Component {
                     var routeOutline = new H.map.Polyline(linestring, {
                         style: {
                             lineWidth: 10,
-                            strokeColor: 'rgba(255, 0, 0, 0.7)',
+                            strokeColor: 'rgba(0, 128, 255, 0.7)',
                             lineTailCap: 'arrow-tail',
                             lineHeadCap: 'arrow-head'
                         }
