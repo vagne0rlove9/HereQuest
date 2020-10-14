@@ -34,7 +34,10 @@ export default class MapArea extends React.Component {
     start() {
         this.setState({
             teaser: {
-                lat: 55.998339, lng:37.225598, description: "Загадка"}});
+                lat: 55.979236, lng: 37.158384, description: "Загадка"
+            }
+        });
+                //lat: 55.998339, lng:37.225598, description: "Загадка"}});
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 this.setState({ myCoordinate: { lat: position.coords.latitude, lng: position.coords.longitude, description: "Моя позиция" } });
@@ -102,7 +105,7 @@ export default class MapArea extends React.Component {
                 description: "Моя позиция"
             }
         });*/        
-        if (this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng) < 10) {
+        if (this.getDistanceFromLatLonInM(this.state.myCoordinate.lat, this.state.myCoordinate.lng, this.state.teaser.lat, this.state.teaser.lng) < 30) {
             alert("You are Winner!");
         } else {
             const H = window.H;
@@ -145,7 +148,7 @@ export default class MapArea extends React.Component {
             var lat = this.state.teaser.lat + Math.cos(a) * radius;
             var lng = this.state.teaser.lng + Math.sin(a) * radius;
             
-            console.log(lat + " " + lng + " " + radius * offset);
+            console.log(lat + " " + lng + " " + (radius * offset) + " " + (distance) * offset);
 
             var newCircle = new H.map.Circle(
                 new H.geo.Point(lat, lng), radius * offset,
