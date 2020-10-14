@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/HereQuest/precache-manifest.7f46345c20ed0b5600281c1e892b6468.js"
+  "/HereQuest/precache-manifest.75ee9d43ce434be6f3247880f484c49c.js"
 );
 
 self.addEventListener('message', (event) => {

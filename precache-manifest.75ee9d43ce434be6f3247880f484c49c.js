@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f37867f1e3f8ee82ae554ca20cd719fe",
+    "revision": "5cbf7048c7c5f1e46efbdf68e9aff235",
     "url": "/HereQuest/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/HereQuest/static/css/2.8aa5a7f8.chunk.css"
   },
   {
-    "revision": "96166e72665554d1b48a",
+    "revision": "bc46caf7402bc183cf67",
     "url": "/HereQuest/static/css/main.29034c25.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/HereQuest/static/js/2.31a8e179.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "96166e72665554d1b48a",
-    "url": "/HereQuest/static/js/main.82f59bd4.chunk.js"
+    "revision": "bc46caf7402bc183cf67",
+    "url": "/HereQuest/static/js/main.991bbe7f.chunk.js"
   },
   {
     "revision": "d03e6596ce6bfb9b8480",
