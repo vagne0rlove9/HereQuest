@@ -81,6 +81,7 @@ function QuestCard(props) {
     const [quest, setQuest] = React.useState(null);
     const [imgPath, setPath] = React.useState("");
     const id = props.quest.id 
+    
     useEffect(() => {
         
         axios
