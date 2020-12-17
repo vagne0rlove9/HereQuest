@@ -80,21 +80,21 @@ function QuestCard(props) {
     const [flag, setFlag] = React.useState(true);
     const [quest, setQuest] = React.useState(null);
     const [imgPath, setPath] = React.useState("");
-    const id = props.quest.id 
+    const id = props.quest.id
     
-    useEffect(() => {
+    //useEffect(() => {
         
-        axios
-            .get(`https://js-here.firebaseio.com/quests/tourism/${props.quest.id}.json`)
-            .then((response) => response.data)
-            .then(
-                (data) => {
-                    setQuest(data)
-                    setPath(data.img2)
-                }
-            );
+    //    axios
+    //        .get(`https://js-here.firebaseio.com/quests/tourism/${props.quest.id}.json`)
+    //        .then((response) => response.data)
+    //        .then(
+    //            (data) => {
+    //                setQuest(data)
+    //                setPath(data.img2)
+    //            }
+    //        );
         
-    }, []);
+    //}, []);
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -126,16 +126,16 @@ function QuestCard(props) {
                     <Card className={classes.root} id="card">
 
                         <img
-                            src={imgPath}
-                            onClick={() => history.push(`/quests/tourism/${id}`)}
-                            style={{ height: "150px", width: "100%", objectFit: "cover" }} alt=""
+                            src={props.quest.img2}
+                            onClick={() => history.push(`/quests/tourism/${props.quest._id}`)}
+                            style={{ height: "150px", width: "100%", objectFit: "cover", cursor: "pointer" }} alt=""
                         />
                         <CardHeader
                             className={classes.cardHeader}
                             onClick={() => history.push(`/quests/tourism/${id}`)}
                             title={
                                 <Typography variant="h6" component="p">
-                                    {quest !== null ? quest.title : null}
+                                    {props.quest !== null ? props.quest.title : null}
                                 </Typography>
                             }
                         />
@@ -145,12 +145,12 @@ function QuestCard(props) {
                         >
                             <CardContent>
                                 <Typography variant="body2" component="p">
-                                    Время: {quest !== null ? quest.time : null}
+                                    Время: {props.quest !== null ? props.quest.time : null}
                                 </Typography>
                             </CardContent>
                             <CardContent>
                                 <Typography variant="body2" component="p">
-                                    Рейтинг: {quest !== null ? quest.rating : null} / 10
+                                    Рейтинг: {props.quest !== null ? props.quest.rating : null} / 10
                                 </Typography>
                             </CardContent>
                         </div>
@@ -171,7 +171,7 @@ function QuestCard(props) {
                             <CardContent>
                                 <Typography paragraph></Typography>
                                 <Typography paragraph>
-                                    {quest !== null ? quest.description : null}
+                                    {props.quest !== null ? props.quest.description : null}
                                 </Typography>
                             </CardContent>
                         </Collapse>

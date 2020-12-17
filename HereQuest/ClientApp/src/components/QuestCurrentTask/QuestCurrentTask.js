@@ -76,6 +76,7 @@ const QuestCurrentTask = (props) => {
         lng: props.task.y,
         description: props.task.title
     }
+
     
     setTimeout(() => setLoading(false), 600)
     //new Promise(resolve => setTimeout(setLoading(false), 600));
@@ -87,7 +88,8 @@ const QuestCurrentTask = (props) => {
                 <>
                     <h3 className="header-task">Задание {props.task.id + 1} из {props.task.count}</h3>
                     <h5 className="question">{props.task.question}</h5>
-                    <Map coors={coordinates}/>
+                    {<Map coors={coordinates} />
+                    }
                     {props.isDesc
                         ?
                         <div className="row div-row" style={{marginLeft: "0", marginTop: "20px"}}>
@@ -95,10 +97,10 @@ const QuestCurrentTask = (props) => {
                                 <h5 className="question">Варианты ответа:</h5>
                                 <RadioGroup aria-label="gender" name="gender1" value={props.answer}
                                             onChange={handleChangeAns}>
-                                    <FormControlLabel value="1" control={<Radio/>} label={props.task.var_1}/>
-                                    <FormControlLabel value="2" control={<Radio/>} label={props.task.var_2}/>
-                                    <FormControlLabel value="3" control={<Radio/>} label={props.task.var_3}/>
-                                    <FormControlLabel value="4" control={<Radio/>} label={props.task.var_4}/>
+                                    <FormControlLabel value="1" control={<Radio />} label={props.task.var_1}/>
+                                    <FormControlLabel value="2" control={<Radio />} label={props.task.var_2}/>
+                                    <FormControlLabel value="3" control={<Radio />} label={props.task.var_3}/>
+                                    <FormControlLabel value="4" control={<Radio />} label={props.task.var_4}/>
                                 </RadioGroup>
                             </FormControl>
                         </div>
@@ -108,7 +110,7 @@ const QuestCurrentTask = (props) => {
                                 ? <h5 className="error-description-green">Вы ответили правильно!</h5>
                                 : <h5 className="error-description-red">Вы ответили неправильно!</h5>
                             }
-                            <br/><h6 className="question-description">{props.task.description}</h6>
+                            <br /><h6 className="question-description">{props.task.description}</h6>
                         </div>
                     }
                 </>

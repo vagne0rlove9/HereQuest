@@ -4,6 +4,7 @@ import "./QuestDetails.css";
 import Loader from "../Loader/Loader";
 import {connect} from "react-redux";
 
+axios.defaults.baseURL = 'http://localhost:3333/';
 
 class QuestDetails extends Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class QuestDetails extends Component {
         //const url = `${APP_URL_DEV}/api/vacancies/${id}`;
         console.log(id)
         axios
-            .get(`https://js-here.firebaseio.com/quests/tourism/${id}.json`)
+            .get(`quests/${id}`)
             .then((response) => response.data)
             .then(
                 (data) => {
@@ -42,6 +43,7 @@ class QuestDetails extends Component {
 
     handleStartQuest = () => {
         this.props.onAnswer(null)
+        this.props.onTitle(this.state.quest.title);
         this.props.history.push(`/quests/tourism/${this.props.match.params.id}/questions`)
     };
 

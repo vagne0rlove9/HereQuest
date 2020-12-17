@@ -20,10 +20,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var app = (0, _express2.default)();
 
+var cors = require('cors');
+
 _mongoose2.default.connect('mongodb://localhost/quests');
 
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
 app.use(_bodyParser2.default.json());
+app.use(cors());
 
 app.post('/quests', function (req, res) {
     var data = req.body;
@@ -46,8 +49,16 @@ app.get('/quests', function (req, res) {
         if (err) {
             return res.send(err);
         }
-
         res.json(quests);
+    });
+});
+
+app.get('/quests/:id', function (req, res) {
+    _model2.default.findById(req.params.id).then(function (err, quest) {
+        if (err) {
+            return res.send(err);
+        }
+        res.json(quest);
     });
 });
 

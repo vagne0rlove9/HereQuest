@@ -9,6 +9,8 @@ import QuestAreaCard from "../../components/QuestAreaCard/QuestAreaCard";
 import Loader from "../../components/Loader/Loader";
 import {connect} from "react-redux";
 
+axios.defaults.baseURL = 'http://localhost:3333/';
+
 class HomePage extends React.Component {
     constructor(props) {
         super(props);
@@ -27,36 +29,42 @@ class HomePage extends React.Component {
 
     componentDidMount() {
         this.getQuestsTourism();
-        this.getQuestsPopular();
-        this.getQuestsRiddle();
-        this.getQuestsTeam();
+        //this.getQuestsPopular();
+        //this.getQuestsRiddle();
+        //this.getQuestsTeam();
     }
+
+    
 
     getQuestsTourism() {
         var temp = []
         axios
-            .get("https://js-here.firebaseio.com/quests/tourism.json")
+            .get("quests")
             .then((response) => response.data)
             .then(
                 (data) => {
                     //temp.push(data)
-                    Object.keys(data).forEach((key, index) => {
-                        temp.push({
-                            id: key,
-                            index
-                        })
-                    })
+                    //Object.keys(data).forEach((key, index) => {
+                    //    temp.push({
+                    //        id: key,
+                    //        index
+                    //    })
+                    //})
                     this.setState({
-                        loadingQuestsTourism: false
+                        loadingQuestsTourism: false,
+                        questsTourism: data
                     })
-                    this.props.onQuestsTourism(temp);
-                    
+                    //this.props.onQuestsTourism(temp);
+                    console.log(data)
                    
                 },
-                (error) =>
+                (error) => {
+                    console.log("error")
+                    console.log(error)
                     this.setState({
                         error: error,
                     })
+                }
             );
     }
 
@@ -186,46 +194,46 @@ class HomePage extends React.Component {
                         </div>
                 }
                 <div className="gradient-background">
-                    <div className="text-container">
-                        <h1 className="caption-text">Популярные квесты</h1>
-                    </div>
-                    {this.state.loadingQuestsTourism ? <Loader/> : null}
-                    <Grid container justify="center" className="margin-bottom">
-                        {
-                            this.props.questsTourism
-                            .sort(
-                                (v1, v2) =>
-                                    (v1.rating) - (v2.rating)
-                                    //new Date(v1.dateOfCreation) - new Date(v2.dateOfCreation)
-                            )
-                            .slice(0, cardsCount)
-                            .map((quest, index) => {
-                                let zIndex = Math.round((1 / (index + 1)) * 100);
-                                return (
-                                    <Grid
-                                        key={index}
-                                        item
-                                        style={{
-                                            width: window.screen.availWidth > 320 ? "311px" : "250px",
-                                            marginRight: "40px",
-                                            marginLeft: "0px",
-                                            // zIndex: zIndex,
-                                        }}
-                                    >
-                                        <QuestCard quest={quest}></QuestCard>
-                                    </Grid>
-                                );
-                            })
-                            
-                        }
-                    </Grid>
+                    {//<div className="text-container">
+                        //    <h1 className="caption-text">Популярные квесты</h1>
+                        //</div>
+                        //{this.state.loadingQuestsTourism ? <Loader/> : null}
+                        //<Grid container justify="center" className="margin-bottom">
+                        //    {
+                        //        this.props.questsTourism
+                        //        .sort(
+                        //            (v1, v2) =>
+                        //                (v1.rating) - (v2.rating)
+                        //                //new Date(v1.dateOfCreation) - new Date(v2.dateOfCreation)
+                        //        )
+                        //        .slice(0, cardsCount)
+                        //        .map((quest, index) => {
+                        //            let zIndex = Math.round((1 / (index + 1)) * 100);
+                        //            return (
+                        //                <Grid
+                        //                    key={index}
+                        //                    item
+                        //                    style={{
+                        //                        width: window.screen.availWidth > 320 ? "311px" : "250px",
+                        //                        marginRight: "40px",
+                        //                        marginLeft: "0px",
+                        //                        // zIndex: zIndex,
+                        //                    }}
+                        //                >
+                        //                    <QuestCard quest={quest}></QuestCard>
+                        //                </Grid>
+                        //            );
+                        //        })
 
+                        //    }
+                        //</Grid>
+                    }
                     <div className="text-container">
                         <h1 className="caption-text">Знакомство с городом</h1>
                     </div>
                     {this.state.loadingQuestsTourism ? <Loader/> : null}
                     <Grid container justify="center" className="margin-bottom">
-                        {this.props.questsTourism
+                        {this.state.questsTourism
                             //.filter( quest => quest.city == "")
                             .slice(0, cardsCount)
                             .map((quest, index = 100) => {
@@ -242,62 +250,65 @@ class HomePage extends React.Component {
                                         }}
                                     >
                                         <QuestCard quest={quest} index={index}></QuestCard>
+                                        
                                     </Grid>
                                 );
                             })}
                     </Grid>
-                    <div className="text-container">
-                        <h1 className="caption-text">Загадки</h1>
-                    </div>
-                    {this.state.loadingQuestsRiddle ? <Loader/> : null}
-                    <Grid container justify="center" className="margin-bottom">
-                        {this.props.questsRiddle
-                            //.filter( quest => quest.city == "")
-                            .slice(0, cardsCount)
-                            .map((quest, index = 100) => {
-                                let zIndex = Math.round((1 / (index + 1)) * 100);
-                                return (
-                                    <Grid
-                                        key={index}
-                                        item
-                                        style={{
-                                            width: window.screen.availWidth > 320 ? "311px" : "250px",
-                                            marginRight: "40px",
-                                            marginLeft: "0px",
-                                            zIndex: zIndex,
-                                        }}
-                                    >
-                                        <QuestAreaCard quest={quest}></QuestAreaCard>
-                                    </Grid>
-                                );
-                            })}
-                    </Grid>
-                    <div className="text-container">
-                        <h1 className="caption-text">Командные квесты</h1>
-                    </div>
-                    {this.state.loadingQuestsTeam ? <Loader/> : null}
-                    <Grid container justify="center" className="margin-bottom">
-                        {this.state.questsTeam
-                            //.filter( quest => quest.city == "")
-                            .slice(0, cardsCount)
-                            .map((quest, index = 100) => {
-                                let zIndex = Math.round((1 / (index + 1)) * 100);
-                                return (
-                                    <Grid
-                                        key={index}
-                                        item
-                                        style={{
-                                            width: window.screen.availWidth > 320 ? "311px" : "250px",
-                                            marginRight: "40px",
-                                            marginLeft: "0px",
-                                            zIndex: zIndex,
-                                        }}
-                                    >
-                                        <QuestCard quest={quest}></QuestCard>
-                                    </Grid>
-                                );
-                            })}
-                    </Grid>
+                    {
+                    //    <div className="text-container">
+                    //    <h1 className="caption-text">Загадки</h1>
+                    //</div>
+                    //{this.state.loadingQuestsRiddle ? <Loader/> : null}
+                    //<Grid container justify="center" className="margin-bottom">
+                    //    {this.props.questsRiddle
+                    //        //.filter( quest => quest.city == "")
+                    //        .slice(0, cardsCount)
+                    //        .map((quest, index = 100) => {
+                    //            let zIndex = Math.round((1 / (index + 1)) * 100);
+                    //            return (
+                    //                <Grid
+                    //                    key={index}
+                    //                    item
+                    //                    style={{
+                    //                        width: window.screen.availWidth > 320 ? "311px" : "250px",
+                    //                        marginRight: "40px",
+                    //                        marginLeft: "0px",
+                    //                        zIndex: zIndex,
+                    //                    }}
+                    //                >
+                    //                    <QuestAreaCard quest={quest}></QuestAreaCard>
+                    //                </Grid>
+                    //            );
+                    //        })}
+                    //</Grid>
+                    //<div className="text-container">
+                    //    <h1 className="caption-text">Командные квесты</h1>
+                    //</div>
+                    //{this.state.loadingQuestsTeam ? <Loader/> : null}
+                    //<Grid container justify="center" className="margin-bottom">
+                    //    {this.state.questsTeam
+                    //        //.filter( quest => quest.city == "")
+                    //        .slice(0, cardsCount)
+                    //        .map((quest, index = 100) => {
+                    //            let zIndex = Math.round((1 / (index + 1)) * 100);
+                    //            return (
+                    //                <Grid
+                    //                    key={index}
+                    //                    item
+                    //                    style={{
+                    //                        width: window.screen.availWidth > 320 ? "311px" : "250px",
+                    //                        marginRight: "40px",
+                    //                        marginLeft: "0px",
+                    //                        zIndex: zIndex,
+                    //                    }}
+                    //                >
+                    //                    <QuestCard quest={quest}></QuestCard>
+                    //                </Grid>
+                    //            );
+                    //        })}
+                    //</Grid>
+                    }
                 </div>
             </div>
         );

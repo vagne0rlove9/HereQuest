@@ -14,6 +14,7 @@ class Map extends React.Component {
     }
 
     start() {
+        
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 this.setState({
@@ -35,7 +36,7 @@ class Map extends React.Component {
         const platform = new H.service.Platform({
             apikey: "ksTpcItxmjBO_GYj0B0e-ZQY8MLCuTPmPDI5nvz_ZKc"
         });
-
+        
         navigator.geolocation.getCurrentPosition(function (position) {
             console.log(position);
         });
@@ -45,7 +46,6 @@ class Map extends React.Component {
         this.props.currentCoors.map(c => {
             coordinates.push(c)
         })
-
         const defaultLayers = platform.createDefaultLayers();
         const center = {lat: 0, lng: 0};
         coordinates.map(coordinate => {

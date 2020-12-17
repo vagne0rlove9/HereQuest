@@ -6,10 +6,13 @@ import Quest from './model/model';
 
 const app = express();
 
+var cors = require('cors');
+
 mongoose.connect('mongodb://localhost/quests');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 
 app.post('/quests', (req, res) => {
     const data = req.body;
@@ -32,8 +35,16 @@ app.get('/quests', (req, res) => {
         if (err) {
             return res.send(err);
         }
-
         res.json(quests);
+    });
+});
+
+app.get('/quests/:id', (req, res) => {
+    QuestModel.findById(req.params.id).then((err, quest) => {
+        if (err) {
+            return res.send(err);
+        }
+        res.json(quest);
     });
 });
 
