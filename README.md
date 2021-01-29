@@ -15,9 +15,9 @@ https://vagne0rlove9.github.io/HereQuest/
 
 Данный проект находится в стадии разработки.
 
-![1](https://github.com/vagne0rlove9/HereQuest/blob/main/Media/1.jpg)
+![1](https://github.com/vagne0rlove9/HereQuest/blob/master/Media/1.jpg)
 ##
-![2](https://github.com/vagne0rlove9/HereQuest/blob/main/Media/2.jpg)
+![2](https://github.com/Wolfram18/HereQuest/blob/master/Media/2.jpg)
 ##
 ![3](https://github.com/vagne0rlove9/HereQuest/blob/main/Media/3.jpg)
 ## 
